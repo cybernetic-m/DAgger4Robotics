@@ -8,19 +8,24 @@
 cd IL4ReacherEnv 
  ```
 
-2. Create a virtual environemnt:
+2. Create a virtual environment:
 
+- Install venv (You can skip if you have it):
  ```sh 
 sudo apt-get install python3-venv
+```
+
+- Create a venv:
+ ```sh 
 python -m venv venv
 ```
 
-- on Linux/MacOS:
+- Activate the venv (on Linux/MacOS):
 ```sh 
 source venv/bin/activate
  ```
 
-- on Windows (Command Prompt):
+- Activate the venv  (on Windows Command Prompt):
 
  ```sh 
 venv\Scripts\activate
