@@ -27,10 +27,10 @@ source venv/bin/activate
 venv\Scripts\activate
  ```
 
-3. Install the Gymnasium Environment:
+3. Install the Mujoco Gymnasium Environments:
 
 ```sh 
-pip install "gymnasium[all]" 
+pip install "gymnasium[mujoco]"
  ```
 
 4. Install the Minari dataset "medium" for the Reacher Env:
