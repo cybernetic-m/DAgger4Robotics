@@ -4,7 +4,8 @@
 1. **Clone the repository**:
 
  ```sh 
- git clone "" 
+ git clone "https://github.com/cybernetic-m/IL4ReacherEnv.git"
+cd IL4ReacherEnv 
  ```
 
 2. Create a virtual environemnt:
@@ -28,4 +29,14 @@ venv\Scripts\activate
 
 3. Install the Gymnasium Environment:
 
-4. Install the Minari dataset
+```sh 
+pip install "gymnasium[all]" 
+ ```
+
+4. Install the Minari dataset "medium" for the Reacher Env:
+
+```sh 
+pip install "minari[all]"
+minari download mujoco/reacher/medium-v0
+ ```
+
