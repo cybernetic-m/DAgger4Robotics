@@ -16,7 +16,6 @@ python -m venv venv
 ```
 
 - on Linux/MacOS:
-- 
 ```sh 
 source venv/bin/activate
  ```
