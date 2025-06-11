@@ -5,9 +5,9 @@ render = True  # Set to True to render the environment
 
 # Creation of the Reacher-v5 environment with human rendering mode
 if render:
-    env = gym.make("Reacher-v5", render_mode="human")
+    env = gym.make("Reacher-v5", render_mode="human",max_episode_steps=200)
 else:
-    env = gym.make("Reacher-v5")
+    env = gym.make("Reacher-v5",max_episode_steps=200)
 
 dataset = minari.load_dataset('mujoco/reacher/medium-v0')
 print("Observation space:", dataset.observation_space)
