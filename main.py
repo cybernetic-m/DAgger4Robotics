@@ -1,8 +1,13 @@
 import gymnasium as gym
 import minari # needed for dataset
 
+render = True  # Set to True to render the environment
+
 # Creation of the Reacher-v5 environment with human rendering mode
-env = gym.make("Reacher-v5", render_mode="human")
+if render:
+    env = gym.make("Reacher-v5", render_mode="human")
+else:
+    env = gym.make("Reacher-v5")
 
 dataset = minari.load_dataset('mujoco/reacher/medium-v0')
 print("Observation space:", dataset.observation_space)
@@ -15,8 +20,6 @@ print("Total steps:", dataset.total_steps)
 observation, info = env.reset()
 
 done = False
-
-render = True  # Set to True to render the environment
 
 while not done:
    
