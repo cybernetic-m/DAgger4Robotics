@@ -1,5 +1,5 @@
 import torch
-import torch.nn.utils.rnn.pad_sequence as pad_sequence
+import from torch.nn.utils.rnn import pad_sequence 
 
 def collate_fn(batch):
 
