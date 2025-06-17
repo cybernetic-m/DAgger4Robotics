@@ -1,7 +1,7 @@
 import json
 import torch
-from training.one_epoch import one_epoch
-from utils.calculate_metrics import calculate_metrics
+from IL4ReacherEnv.training.one_epoch import one_epoch
+from IL4ReacherEnv.utils.calculate_metrics import calculate_metrics
 
 def train(train_loader, val_loader, model, optimizer, loss_fn, num_epochs, device):
 
