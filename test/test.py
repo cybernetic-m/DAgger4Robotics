@@ -15,14 +15,9 @@ sys.path.append(utils_path)
 # Import section
 from calculate_metrics import calculate_metrics
 
-def test(model_path, test_dataloader, loss_fn, device):
+def test(model, test_dataloader, loss_fn, device):
 
-    # Load the model from the specified path
-    if not os.path.exists(model_path):
-        raise FileNotFoundError(f"Model file not found at {model_path}")
-    model = torch.load(model_path, device=device)
     model.eval()
-    print(f"Model loaded from {model_path}")
     
     # Definition of the metrics dictionary
     test_metrics = {
