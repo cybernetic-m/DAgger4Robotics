@@ -1,57 +1,68 @@
 import gymnasium as gym
-import minari # needed for dataset
+from gymnasium.wrappers import RecordVideo #INSTALL pip install "gymnasium[other]"
+from model.ExpertPolicyNet import ExpertPolicyNet
+import torch
+import cv2
 
-render = False  # Set to True to render the environment
+render = True  # Set to True to render the environment
+video_saving=True
 
 # Creation of the Reacher-v5 environment with human rendering mode
 if render:
-    env = gym.make("Reacher-v5", render_mode="human",max_episode_steps=200)
+    env = gym.make("Reacher-v5", render_mode="rgb_array")#,max_episode_steps=200)
 else:
     env = gym.make("Reacher-v5",max_episode_steps=200)
 
-# Load the dataset for the Reacher environment
-dataset = minari.load_dataset('mujoco/reacher/medium-v0')
-dataset.set_seed(42)  # Set a seed for reproducibility
-print("Dataset loaded successfully!")
+#Folder for saving video
+video_folder = "./videos"
 
-# To sample episodes from the dataset
-#episodes = dataset.sample_episodes(6)
-#ids = [episode.id for episode in episodes]
-#print(ids)
+# Wrapper for registering videos
+if video_saving:
+    env = RecordVideo(env, video_folder=video_folder, episode_trigger=lambda e: True)
 
-# get episodes with mean reward greater than 2
-#expert_dataset = dataset.filter_episodes(lambda episode: episode.rewards.mean() > -0.1)
-#print(f'TOTAL EPISODES FILTER DATASET: {filter_dataset.total_episodes}')
+#Load the model
+model = ExpertPolicyNet(10,2)
 
-# Split the dataset into training, evaluation and test sets with percentage sizes 0.7, 0.2, 0.1
-# The original dataset is of size 10000, we split it into 7000 for training and 2000 for evaluation and 1000 for testing
-dataset_split = minari.split_dataset(dataset, sizes=[7000, 2000, 1000], seed=42) 
-training_dataset = dataset_split[0]
-evaluation_dataset = dataset_split[1]
-test_dataset = dataset_split[2]
-print(f"Training episodes: {len(training_dataset)}")
-print(f"Evaluation episodes: {len(evaluation_dataset)}")
-print(f"Test episodes: {len(test_dataset)}")
+#LOad the expert weights
+model.load_state_dict(torch.load('expert_policy.pt',map_location=torch.device('cpu')))
+model.eval()
+
 
 # Reset the environment to start a new episode
 # Return the initial observation and info dictionary (if available)
-observation, info = env.reset()
 
-done = False
+n_episodes = 5
+reward_for_episode = []
+# observation, info = env.reset()
+# observation = torch.tensor(observation, dtype=torch.float32)
 
-while not done:
-   
-    # Sample a random action from the action space
-    action = env.action_space.sample()
+for ep in range(n_episodes):
+    observation, _ = env.reset()
+    observation = torch.tensor(observation, dtype=torch.float32)
+    done = False
+    total_reward = 0.0
 
-    # Step the environment with the sampled action
-    observation, reward, terminated, truncated, info = env.step(action)
+    while not done:
+    
+        # Sample a random action from the action space
+        action = model(observation)
 
-    # Render the environment
-    if render == True:
-        env.render()
+        # Step the environment with the sampled action
+        observation, reward, terminated, truncated, info = env.step(action.detach().cpu().numpy())
+        observation = torch.tensor(observation, dtype=torch.float32)
+        total_reward += reward
+        # Render the environment
+        if render == True:
+            frame=env.render()
+            cv2.imshow("Reacher", frame[:, :, ::-1])  # Convert RGB → BGR
+            if cv2.waitKey(30) & 0xFF == ord('q'):
+                break
 
-    # Check if the episode is done
-    done = terminated or truncated
+        # Check if the episode is done
+        done = terminated or truncated
 
+    reward_for_episode.append(total_reward)
+
+print(reward_for_episode)
 env.close()
+cv2.destroyAllWindows()
