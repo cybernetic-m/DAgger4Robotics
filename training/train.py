@@ -59,19 +59,19 @@ def train(train_loader, val_loader, model, optimizer, loss_fn, num_epochs, devic
     val_a_hat_numpy = val_a_hat_tensor.view(-1,2).cpu().detach().numpy()
     val_a_pred_numpy = val_a_pred_tensor.view(-1,2).cpu().detach().numpy()
 
-    print(f"Training Loss: {epoch_loss}")
-    print(f"Validation Loss: {epoch_vloss}")
-
     if epoch_vloss < best_vloss:
       best_vloss = epoch_vloss
       torch.save(model.state_dict(), "expert_policy.pt")
       print(f"Model saved as expert_policy.pt")
 
     # Compute the metrics and append in the dictionary
-    calculate_metrics(y_true_list = train_a_hat_numpy, y_pred_list= train_a_pred_numpy, metrics = train_metrics)
-    calculate_metrics(y_true_list = val_a_hat_numpy, y_pred_list= val_a_pred_numpy, metrics = val_metrics)
+    train_rmse, train_mae, train_r2 = calculate_metrics(y_true_list = train_a_hat_numpy, y_pred_list= train_a_pred_numpy, metrics = train_metrics)
+    val_rmse, val_mae, val_r2 = calculate_metrics(y_true_list = val_a_hat_numpy, y_pred_list= val_a_pred_numpy, metrics = val_metrics)
     train_metrics['loss'].append(epoch_loss)
     val_metrics['loss'].append(epoch_vloss)
+
+    print(f"TRAIN\t Loss: {epoch_loss:.4f}, RMSE: {train_rmse:.4f}, MAE: {train_mae:.4f}, R2: {train_r2:.4f}")
+    print(f"VALIDATION\t Loss: {epoch_vloss:.4f},RMSE: {val_rmse:.4f}, MAE: {val_mae:.4f}, R2: {val_r2:.4f}")
 
   # Save the metrics in json
   with open("train_metrics.json", "w") as f:
