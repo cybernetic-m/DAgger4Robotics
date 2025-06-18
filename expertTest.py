@@ -3,54 +3,45 @@ from gymnasium.wrappers import RecordVideo #INSTALL pip install "gymnasium[other
 from model.ExpertPolicyNet import ExpertPolicyNet
 import torch
 import cv2
+import json
 
 render = True  # Set to True to render the environment
-video_saving=True
+video_saving=True # Set to True to save the videos
+if render == False and video_saving==False:
+    env = gym.make("Reacher-v5") # Cration of the environment only for gathering data
+else: #at least one True of render or video_saving
+    env = gym.make("Reacher-v5", render_mode="rgb_array") # Creation of the Reacher-v5 environment with rgb_array mode
+    if video_saving == True:
+        #Folder for saving video
+        video_folder = "./videos"
+        env = RecordVideo(env, video_folder=video_folder, episode_trigger=lambda e: True)
 
-# Creation of the Reacher-v5 environment with human rendering mode
-if render:
-    env = gym.make("Reacher-v5", render_mode="rgb_array")#,max_episode_steps=200)
-else:
-    env = gym.make("Reacher-v5",max_episode_steps=200)
+#Load the pi_star
+pi_star = ExpertPolicyNet(10,2)
 
-#Folder for saving video
-video_folder = "./videos"
+#Load the expert weights
+pi_star.load_state_dict(torch.load('super_expert_policy.pt',map_location=torch.device('cpu')))
+pi_star.eval()
 
-# Wrapper for registering videos
-if video_saving:
-    env = RecordVideo(env, video_folder=video_folder, episode_trigger=lambda e: True)
-
-#Load the model
-model = ExpertPolicyNet(10,2)
-
-#LOad the expert weights
-model.load_state_dict(torch.load('expert_policy.pt',map_location=torch.device('cpu')))
-model.eval()
-
-
-# Reset the environment to start a new episode
-# Return the initial observation and info dictionary (if available)
 
 n_episodes = 5
-reward_for_episode = []
-# observation, info = env.reset()
-# observation = torch.tensor(observation, dtype=torch.float32)
+mean_reward_for_episode = {}
 
 for ep in range(n_episodes):
-    observation, _ = env.reset()
+    observation, _ = env.reset(seed=ep)
     observation = torch.tensor(observation, dtype=torch.float32)
     done = False
     total_reward = 0.0
+    step = 0
 
     while not done:
-    
-        # Sample a random action from the action space
-        action = model(observation)
+        action = pi_star(observation)
 
         # Step the environment with the sampled action
         observation, reward, terminated, truncated, info = env.step(action.detach().cpu().numpy())
         observation = torch.tensor(observation, dtype=torch.float32)
         total_reward += reward
+        step +=1
         # Render the environment
         if render == True:
             frame=env.render()
@@ -60,9 +51,12 @@ for ep in range(n_episodes):
 
         # Check if the episode is done
         done = terminated or truncated
+    mean_reward_episode=total_reward/step
+    mean_reward_for_episode[str(ep)]=mean_reward_episode
 
-    reward_for_episode.append(total_reward)
-
-print(reward_for_episode)
+print(mean_reward_for_episode)
 env.close()
 cv2.destroyAllWindows()
+#Saving mean rewards in a json file
+with open("mean_rewards.json", "w") as f:
+    json.dump(mean_reward_for_episode, f, indent=4)
