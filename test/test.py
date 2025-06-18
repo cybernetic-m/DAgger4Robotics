@@ -15,14 +15,9 @@ sys.path.append(utils_path)
 # Import section
 from calculate_metrics import calculate_metrics
 
-def test(model_path, test_dataloader, loss_fn, device):
+def test(model, test_dataloader, loss_fn, device):
 
-    # Load the model from the specified path
-    if not os.path.exists(model_path):
-        raise FileNotFoundError(f"Model file not found at {model_path}")
-    model = torch.load(model_path, device=device)
     model.eval()
-    print(f"Model loaded from {model_path}")
     
     # Definition of the metrics dictionary
     test_metrics = {
@@ -30,6 +25,7 @@ def test(model_path, test_dataloader, loss_fn, device):
         'mae': [],
         'r2': [],
         'loss': [],
+        'inference_time_avg': [],
     }
 
     test_loss = 0
@@ -39,7 +35,6 @@ def test(model_path, test_dataloader, loss_fn, device):
 
     with torch.no_grad():
         for batch in tqdm(test_dataloader, desc="Testing..."):
-            print(batch['observations'].shape)
             inputs = batch['observations'][:, :-1].float().to(device)   # Inputs to the model, excluding the last time step
             start_time = time.time()    # Start the timer for inference
             a_pred = model(inputs)      #  Predict actions using the model
@@ -73,10 +68,17 @@ def test(model_path, test_dataloader, loss_fn, device):
 
     # Calculate the metrics using the utility function
     rmse, mae, r2 = calculate_metrics(y_true_list=a_hat_numpy, y_pred_list=a_pred_numpy, metrics=test_metrics)
+    inference_time_avg = sum(inference_time_list) / len(inference_time_list)
     test_metrics['loss'].append(test_loss_avg)
+    test_metrics['inference_time_avg'].append(inference_time_avg)
 
-    print(f"Test Loss: {test_loss_avg:.4f}, RMSE: {rmse:.4f}, MAE: {mae:.4f}, R2: {r2:.4f}")
-    print(f"Average Inference Time per Batch: {sum(inference_time_list) / len(inference_time_list):.4f} seconds")
+    print(f"\nTest Loss: {test_loss_avg:.4f}, RMSE: {rmse:.4f}, MAE: {mae:.4f}, R2: {r2:.4f}")
+    print(f"Average Inference Time per Batch: {inference_time_avg:.4f} seconds")
+
+    # Save the metrics in json
+    with open("test_metrics.json", "w") as f:
+        json.dump(test_metrics, f, indent=4)
+    print("Metrics of test saved into colab Files!")
 
 
     
