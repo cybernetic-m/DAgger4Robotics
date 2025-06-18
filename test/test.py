@@ -72,8 +72,13 @@ def test(model, test_dataloader, loss_fn, device):
     test_metrics['loss'].append(test_loss_avg)
     test_metrics['inference_time_avg'].append(inference_time_avg)
 
-    print(f"Test Loss: {test_loss_avg:.4f}, RMSE: {rmse:.4f}, MAE: {mae:.4f}, R2: {r2:.4f}")
+    print(f"\nTest Loss: {test_loss_avg:.4f}, RMSE: {rmse:.4f}, MAE: {mae:.4f}, R2: {r2:.4f}")
     print(f"Average Inference Time per Batch: {inference_time_avg:.4f} seconds")
+
+    # Save the metrics in json
+    with open("test_metrics.json", "w") as f:
+        json.dump(test_metrics, f, indent=4)
+    print("Metrics of test saved into colab Files!")
 
 
     
