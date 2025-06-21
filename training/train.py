@@ -1,9 +1,10 @@
 import json
 import torch
 from IL4ReacherEnv.training.one_epoch import one_epoch
+from IL4ReacherEnv.training.one_epoch_state_action import one_epoch_state_action
 from IL4ReacherEnv.utils.calculate_metrics import calculate_metrics
 
-def train(train_loader, val_loader, model, optimizer, loss_fn, num_epochs, device):
+def train(train_loader, val_loader, model, optimizer, loss_fn, num_epochs, device , state_action=True):
 
   epoch_loss = 0
   epoch_val_loss = 0
@@ -32,8 +33,12 @@ def train(train_loader, val_loader, model, optimizer, loss_fn, num_epochs, devic
     #   ...,
     #  [ [[1, 2], [3,4], ..., [10,11]], ..., [[1.1, 2.2], [3.3,4.4], ..., [10.1,11.1]] ],  list element 28: tensor (88, 50, 2)
     # ]
-    epoch_loss, train_a_hat_list, train_a_pred_list = one_epoch(train_loader, model, optimizer, loss_fn, device)
-    epoch_vloss, val_a_hat_list, val_a_pred_list = one_epoch(val_loader, model, optimizer, loss_fn, device, validation = True)
+    if state_action == True:
+      epoch_loss, train_a_hat_list, train_a_pred_list = one_epoch_state_action(train_loader, model, optimizer, loss_fn, device)
+      epoch_vloss, val_a_hat_list, val_a_pred_list = one_epoch_state_action(val_loader, model, optimizer, loss_fn, device, validation = True)
+    else: 
+      epoch_loss, train_a_hat_list, train_a_pred_list = one_epoch(train_loader, model, optimizer, loss_fn, device)
+      epoch_vloss, val_a_hat_list, val_a_pred_list = one_epoch(val_loader, model, optimizer, loss_fn, device, validation = True)
 
     # Concatenate all the tensors in the list through the batch dimension (256 * 27 + 88 = 7000) => (7000, 50, 2) becoming a big tensor
     #[
