@@ -1,7 +1,7 @@
 from tqdm import tqdm
 import torch
 
-def one_epoch(dataloader, model, optimizer, loss_fn, device, validation = False):
+def one_epoch(dataloader, model, optimizer, loss_fn, device, state_action = True, validation = False):
 
     # Set the modality of model depending if it is in tranining or validation mode
     if validation:
@@ -19,11 +19,16 @@ def one_epoch(dataloader, model, optimizer, loss_fn, device, validation = False)
     with grad_modality:
       for batch in tqdm(dataloader, desc="Validation Batches" if validation else "Training Batches"):
 
-          inputs = batch['observations'][:, :-1].float().to(device)
+          if state_action == True:
+            inputs, a_hat = batch
+            inputs = inputs.to(device)
+            a_hat = a_hat.to(device)
+          else:
+            inputs = batch['observations'][:, :-1].float().to(device)
+            a_hat = batch["actions"].to(device)
           a_pred = model(inputs)
           a_pred_list.append(a_pred)
 
-          a_hat = batch["actions"].to(device)
           a_hat_list.append(a_hat)
 
           loss = loss_fn(a_pred, a_hat)
