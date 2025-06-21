@@ -18,9 +18,9 @@ def one_epoch_state_action(dataloader, model, optimizer, loss_fn, device, valida
 
     with grad_modality:
       for batch in tqdm(dataloader, desc="Validation Batches" if validation else "Training Batches"):
-          inputs, a_hat = batch.to(device)
-          #inputs = inputs.to(device)
-          #a_hat = a_hat.to(device)
+          inputs, a_hat = batch
+          inputs = inputs.to(device)
+          a_hat = a_hat.to(device)
           #inputs = batch['observations'][:, :-1].float().to(device)
           a_pred = model(inputs)
           a_pred_list.append(a_pred)
