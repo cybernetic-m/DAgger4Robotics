@@ -19,7 +19,7 @@ import json
 from tqdm import tqdm
 
 class DAgger():
-    def __init__(self, env, initialDataset, validationDataset, studentPolicy, expertPolicy, optimizer, loss_fn, batch_size, num_epochs, betaMode, device, rollouts_per_iterations, voidInit = False, exponential_beta_k = 0):
+    def __init__(self, env, initialDataset, validationDataset, studentPolicy, expertPolicy, optimizer, loss_fn, batch_size, num_epochs, betaMode, device, rollouts_per_iteration, voidInit = False, exponential_beta_k = 0):
 
         self.env = env
         self.initialDataset = initialDataset  # IT SHOULD BE A MINARI DATASET
@@ -27,7 +27,7 @@ class DAgger():
         self.studentPolicy = studentPolicy
         self.expertPolicy = expertPolicy
         self.device = device
-        self.rollouts_per_iterations=rollouts_per_iterations
+        self.rollouts_per_iteration=rollouts_per_iteration
         self.optimizer = optimizer
         self.loss_fn = loss_fn
         self.batch_size = batch_size
@@ -103,7 +103,7 @@ class DAgger():
         if os.path.exists(previousStudentPolicyPath):
           self.studentPolicy.load_state_dict(torch.load(previousStudentPolicyPath,map_location=self.device))
         with torch.no_grad():
-          for ep in self.rollouts_per_iterations:
+          for ep in range(self.rollouts_per_iteration):
             observation, _ = self.env.reset()
             done = False
             while not done:
