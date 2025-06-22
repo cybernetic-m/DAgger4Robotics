@@ -19,7 +19,7 @@ import json
 from tqdm import tqdm
 
 class DAgger():
-    def __init__(self, env, initialDataset, validationDataset, studentPolicy, expertPolicy, optimizer, loss_fn, batch_size, num_epochs, betaMode, device, voidInit = False, exponential_beta_k = 0):
+    def __init__(self, env, initialDataset, validationDataset, studentPolicy, expertPolicy, optimizer, loss_fn, batch_size, num_epochs, betaMode, device, rollouts_per_iterations, voidInit = False, exponential_beta_k = 0):
 
         self.env = env
         self.initialDataset = initialDataset  # IT SHOULD BE A MINARI DATASET
@@ -27,6 +27,7 @@ class DAgger():
         self.studentPolicy = studentPolicy
         self.expertPolicy = expertPolicy
         self.device = device
+        self.rollouts_per_iterations=rollouts_per_iterations
         self.optimizer = optimizer
         self.loss_fn = loss_fn
         self.batch_size = batch_size
@@ -102,30 +103,33 @@ class DAgger():
         if os.path.exists(previousStudentPolicyPath):
           self.studentPolicy.load_state_dict(torch.load(previousStudentPolicyPath,map_location=self.device))
         with torch.no_grad():
-          while not done:
-              # Convert observation to a Tensor
-              observationTensor = torch.tensor(observation, dtype=torch.float32, device=self.device)
+          for ep in self.rollouts_per_iterations:
+            observation, _ = self.env.reset()
+            done = False
+            while not done:
+                # Convert observation to a Tensor
+                observationTensor = torch.tensor(observation, dtype=torch.float32, device=self.device)
 
-              # Get action from either student or expert policy depending on beta
-              # random.random() give a number between [0,1]
-              # iter 0: beta = 1 => then with 100% of probability it choose the Expert
-              # iter 1: beta = 0.8 => then with 80% of probability it choose the Expert
-              if random.random() < beta:
-                  exp_count += 1
-                  action = self.expertPolicy(observationTensor)
-              else:
-                  stud_count += 1
-                  action = self.studentPolicy(observationTensor)
+                # Get action from either student or expert policy depending on beta
+                # random.random() give a number between [0,1]
+                # iter 0: beta = 1 => then with 100% of probability it choose the Expert
+                # iter 1: beta = 0.8 => then with 80% of probability it choose the Expert
+                if random.random() < beta:
+                    exp_count += 1
+                    action = self.expertPolicy(observationTensor)
+                else:
+                    stud_count += 1
+                    action = self.studentPolicy(observationTensor)
 
-              # Needed because we always save the expert actions in the dataset
-              expertAction = self.expertPolicy(observationTensor)
+                # Needed because we always save the expert actions in the dataset
+                expertAction = self.expertPolicy(observationTensor)
 
-              # Collecting both observation and action appending to respective lists
-              self.x.append(observationTensor.detach().cpu().numpy())
-              self.a.append(expertAction.detach().cpu().numpy())
+                # Collecting both observation and action appending to respective lists
+                self.x.append(observationTensor.detach().cpu().numpy())
+                self.a.append(expertAction.detach().cpu().numpy())
 
-              observation, reward, terminated, truncated, _ = self.env.step(action.detach().cpu().numpy())
-              done = terminated or truncated
+                observation, reward, terminated, truncated, _ = self.env.step(action.detach().cpu().numpy())
+                done = terminated or truncated
 
         self.other_param_dict['student_Nchoice'].append(stud_count)
         self.other_param_dict['expert_Nchoice'].append(exp_count)
