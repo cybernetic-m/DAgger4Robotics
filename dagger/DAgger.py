@@ -101,31 +101,31 @@ class DAgger():
         done = False
         if os.path.exists(previousStudentPolicyPath):
           self.studentPolicy.load_state_dict(torch.load(previousStudentPolicyPath,map_location=self.device))
+        with torch.no_grad():
+          while not done:
+              # Convert observation to a Tensor
+              observationTensor = torch.tensor(observation, dtype=torch.float32, device=self.device)
 
-        while not done:
-            # Convert observation to a Tensor
-            observationTensor = torch.tensor(observation, dtype=torch.float32, device=self.device)
+              # Get action from either student or expert policy depending on beta
+              # random.random() give a number between [0,1]
+              # iter 0: beta = 1 => then with 100% of probability it choose the Expert
+              # iter 1: beta = 0.8 => then with 80% of probability it choose the Expert
+              if random.random() < beta:
+                  exp_count += 1
+                  action = self.expertPolicy(observationTensor)
+              else:
+                  stud_count += 1
+                  action = self.studentPolicy(observationTensor)
 
-            # Get action from either student or expert policy depending on beta
-            # random.random() give a number between [0,1]
-            # iter 0: beta = 1 => then with 100% of probability it choose the Expert
-            # iter 1: beta = 0.8 => then with 80% of probability it choose the Expert
-            if random.random() < beta:
-                exp_count += 1
-                action = self.expertPolicy(observationTensor)
-            else:
-                stud_count += 1
-                action = self.studentPolicy(observationTensor)
+              # Needed because we always save the expert actions in the dataset
+              expertAction = self.expertPolicy(observationTensor)
 
-            # Needed because we always save the expert actions in the dataset
-            expertAction = self.expertPolicy(observationTensor)
+              # Collecting both observation and action appending to respective lists
+              self.x.append(observationTensor.detach().cpu().numpy())
+              self.a.append(expertAction.detach().cpu().numpy())
 
-            # Collecting both observation and action appending to respective lists
-            self.x.append(observationTensor.detach().cpu().numpy())
-            self.a.append(expertAction.detach().cpu().numpy())
-
-            observation, reward, terminated, truncated, _ = self.env.step(action.detach().cpu().numpy())
-            done = terminated or truncated
+              observation, reward, terminated, truncated, _ = self.env.step(action.detach().cpu().numpy())
+              done = terminated or truncated
 
         self.other_param_dict['student_Nchoice'].append(stud_count)
         self.other_param_dict['expert_Nchoice'].append(exp_count)
