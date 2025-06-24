@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-class ExpertPolicyNet(nn.Module):
+class SimplePolicyNet(nn.Module):
     def __init__(self, input_dim, output_dim):
         super().__init__()
         self.fc1 = nn.Linear(input_dim, 256)

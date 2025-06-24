@@ -1,6 +1,6 @@
 import gymnasium as gym
 from gymnasium.wrappers import RecordVideo #INSTALL pip install "gymnasium[other]"
-from model.ExpertPolicyNet import ExpertPolicyNet
+from model.NetworkInterface import NetworkInterface
 import torch
 import cv2
 import json
@@ -18,13 +18,14 @@ else: #at least one True of render or video_saving
         env = RecordVideo(env, video_folder=video_folder, episode_trigger=lambda e: True, name_prefix="ep_test")
 
 #Load the pi_star
-pi_star = ExpertPolicyNet(10,2)
+net_wrapper = NetworkInterface(net_type='simple',input_dim=10,output_dim=2)
+pi_star = net_wrapper.get_model()
 
 #Load the best expert/student weights
 if student == True:
-    pi_star.load_state_dict(torch.load('students/student_policy_batch_32/student_policy_inverse.pt',map_location=torch.device('cpu')))
+    pi_star.load_state_dict(torch.load('students_reacher/student_policy_batch_32/student_policy_inverse.pt',map_location=torch.device('cpu')))
 else:
-    pi_star.load_state_dict(torch.load('experts/expert_batch_512/super_expert_policy_state_action_512.pt',map_location=torch.device('cpu')))
+    pi_star.load_state_dict(torch.load('experts_reacher/expert_batch_512/super_expert_policy_state_action_512.pt',map_location=torch.device('cpu')))
 pi_star.eval()
 
 
