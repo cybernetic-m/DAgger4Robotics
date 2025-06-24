@@ -1,5 +1,5 @@
-from model.SimplePolicyNet import SimplePolicyNet
-from model.DeepPolicyNet import DeepPolicyNet
+from SimplePolicyNet import SimplePolicyNet
+from DeepPolicyNet import DeepPolicyNet
 
 class NetworkInterface:
     def __init__(self, net_type, input_dim, output_dim):
