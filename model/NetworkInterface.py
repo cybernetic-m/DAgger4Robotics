@@ -1,6 +1,6 @@
 try: #import working in colab
-    from IL4ReacherEnv.model.SimplePolicyNet import SimplePolicyNet
-    from IL4ReacherEnv.model.DeepPolicyNet import DeepPolicyNet
+    from DAgger4Robotics.model.SimplePolicyNet import SimplePolicyNet
+    from DAgger4Robotics.model.DeepPolicyNet import DeepPolicyNet
 except ModuleNotFoundError:
     # fallback when executed in local
     from .SimplePolicyNet import SimplePolicyNet

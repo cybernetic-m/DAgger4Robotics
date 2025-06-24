@@ -1,8 +1,8 @@
 import json
 import torch
-from IL4ReacherEnv.training.one_epoch import one_epoch
-from IL4ReacherEnv.training.one_epoch_state_action import one_epoch_state_action
-from IL4ReacherEnv.utils.calculate_metrics import calculate_metrics
+from DAgger4Robotics.training.one_epoch import one_epoch
+from DAgger4Robotics.training.one_epoch_state_action import one_epoch_state_action
+from DAgger4Robotics.utils.calculate_metrics import calculate_metrics
 
 def train(train_loader, val_loader, model, optimizer, loss_fn, num_epochs, device , state_action=True):
 
