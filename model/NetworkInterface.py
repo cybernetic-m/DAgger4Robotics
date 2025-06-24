@@ -1,6 +1,10 @@
-from SimplePolicyNet import SimplePolicyNet
-from DeepPolicyNet import DeepPolicyNet
-
+try: #import working in colab
+    from IL4ReacherEnv.model.SimplePolicyNet import SimplePolicyNet
+    from IL4ReacherEnv.model.DeepPolicyNet import DeepPolicyNet
+except ModuleNotFoundError:
+    # fallback when executed in local
+    from .SimplePolicyNet import SimplePolicyNet
+    from .DeepPolicyNet import DeepPolicyNet
 class NetworkInterface:
     def __init__(self, net_type, input_dim, output_dim):
         if net_type == "simple":
