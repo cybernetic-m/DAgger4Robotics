@@ -4,10 +4,11 @@ from model.NetworkInterface import NetworkInterface
 import torch
 import cv2
 import json
+import time
 
 render = False  # Set to True to render the environment
-video_saving=False # Set to True to save the videos
-student= False
+video_saving=True # Set to True to save the videos
+student= True
 if render == False and video_saving==False:
     env = gym.make("Reacher-v5") # Cration of the environment only for gathering data
 else: #at least one True of render or video_saving
@@ -15,24 +16,25 @@ else: #at least one True of render or video_saving
     if video_saving == True:
         #Folder for saving video
         video_folder = "./videos"
-        env = RecordVideo(env, video_folder=video_folder, episode_trigger=lambda e: True, name_prefix="ep_test")
+        env = RecordVideo(env, video_folder=video_folder, episode_trigger=lambda e: True, name_prefix="ep_deep_student")
 
 #Load the pi_star
-net_wrapper = NetworkInterface(net_type='deep',input_dim=10,output_dim=2)
+net_wrapper = NetworkInterface(net_type='simple',input_dim=10,output_dim=2)
 net_wrapper.summary()
 pi_star = net_wrapper.get_model()
 
 #Load the best expert/student weights
 if student == True:
-    pi_star.load_state_dict(torch.load('students_reacher/student_policy_batch_32/student_policy_inverse.pt',map_location=torch.device('cpu')))
+    pi_star.load_state_dict(torch.load('students_reacher/trained_on_deep_batch_32/student_policy_inverse.pt',map_location=torch.device('cpu')))
+    #pi_star.load_state_dict(torch.load('students_reacher/student_policy_batch_32/student_policy_inverse.pt',map_location=torch.device('cpu')))
 else:
-    pi_star.load_state_dict(torch.load('expert_policy_1.pt',map_location=torch.device('cpu')))
+    pi_star.load_state_dict(torch.load('experts_reacher/deep_expert_policy/expert_policy_512.pt',map_location=torch.device('cpu')))
 pi_star.eval()
 
 
-n_episodes = 1000
+n_episodes = 100
 mean_reward_for_episode = {}
-
+start = time.time()
 for ep in range(n_episodes):
     observation, _ = env.reset(seed=ep)
     observation = torch.tensor(observation, dtype=torch.float32)
@@ -59,7 +61,9 @@ for ep in range(n_episodes):
         done = terminated or truncated
     mean_reward_episode=total_reward/step
     mean_reward_for_episode[f"Episode {ep}"]=mean_reward_episode
-
+end = time.time()
+total= (end - start)/50
+print(f"Tempo impiegato: {total:.4f} secondi")
 total_mean = sum(mean_reward_for_episode.values()) / len(mean_reward_for_episode)
 print(total_mean)
 env.close()

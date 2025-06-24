@@ -16,16 +16,10 @@ dataset = minari.load_dataset('D4RL/kitchen/complete-v2', download=True)
 
 p1=dataset[14].observations['achieved_goal']['microwave'].flatten()
 p2=dataset[14].observations["observation"][:,31].flatten()
-are_equal = np.allclose(p1, p2)
-print(p1)
-print(p2)
-print(dataset[14])
 
-print("Sono uguali per tutti i timestep?", are_equal)
+print(dataset[4].observations['desired_goal']['microwave'])
 
-if not are_equal:
-    diff = np.abs(p1 - p2)
-    print("Differenze massime:", np.max(diff))
+print(dataset[4])
 """
 i=0
 for ep in dataset:
