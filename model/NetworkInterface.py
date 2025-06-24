@@ -19,4 +19,4 @@ class NetworkInterface:
         return self.model
     
     def summary(self):
-        return self.model.__str__()
+        return print(self.model)
