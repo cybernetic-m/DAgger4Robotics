@@ -5,8 +5,9 @@ import torch
 import cv2
 import json
 
-render = False  # Set to True to render the environment
+render = True  # Set to True to render the environment
 video_saving=True # Set to True to save the videos
+student= True
 if render == False and video_saving==False:
     env = gym.make("Reacher-v5") # Cration of the environment only for gathering data
 else: #at least one True of render or video_saving
@@ -14,17 +15,20 @@ else: #at least one True of render or video_saving
     if video_saving == True:
         #Folder for saving video
         video_folder = "./videos"
-        env = RecordVideo(env, video_folder=video_folder, episode_trigger=lambda e: True, name_prefix="ep_medium")
+        env = RecordVideo(env, video_folder=video_folder, episode_trigger=lambda e: True, name_prefix="ep_test")
 
 #Load the pi_star
 pi_star = ExpertPolicyNet(10,2)
 
-#Load the expert weights
-pi_star.load_state_dict(torch.load('model/super_expert_policy_state_action_512_filtered.pt',map_location=torch.device('cpu')))
+#Load the best expert/student weights
+if student == True:
+    pi_star.load_state_dict(torch.load('students/student_policy_batch_32/student_policy_inverse.pt',map_location=torch.device('cpu')))
+else:
+    pi_star.load_state_dict(torch.load('experts/expert_batch_512/super_expert_policy_state_action_512.pt',map_location=torch.device('cpu')))
 pi_star.eval()
 
 
-n_episodes = 100
+n_episodes = 10
 mean_reward_for_episode = {}
 
 for ep in range(n_episodes):
