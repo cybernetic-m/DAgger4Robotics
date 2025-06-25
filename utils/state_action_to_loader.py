@@ -3,10 +3,10 @@ import torch.nn as nn
 import torch
 import numpy as np
 
-def state_action_to_loader(data, batch_size):
+def state_action_to_loader(data, batch_size, env_mode):
     x_list = []  # observations (input for the model)
     y_list = []  # actions (target)
-    if hasattr(data, '__class__') and data.__class__.__module__ != 'builtins':
+    if env_mode == 'reacher':
         for ep in data:
             obs = ep.observations[:-1]  # (50, 10) (removing the last one)
             acts = ep.actions           # (50, 2)
@@ -19,7 +19,7 @@ def state_action_to_loader(data, batch_size):
         
         s = np.concatenate(x_list, axis=0)  # shape (len(data)*50, 10)
         a = np.concatenate(y_list, axis=0)  # shape (len(data)*50, 2)
-    else:
+    elif env_mode == 'kitchen':
         for ep_id in data['observations']:
             obs = data['observations'][ep_id]
             acts = data['actions'][ep_id]
@@ -29,6 +29,9 @@ def state_action_to_loader(data, batch_size):
             
         s = np.array(x_list)
         a = np.array(y_list)
+
+    else:
+        raise ValueError(f"Unsupported environment mode: {env_mode}. Choose 'reacher' or 'kitchen'.")
 
     dataset = TensorDataset(torch.tensor(s, dtype=torch.float32), torch.tensor(a, dtype=torch.float32))
     return DataLoader(dataset, batch_size=batch_size, shuffle=True)
