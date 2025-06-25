@@ -15,11 +15,11 @@ class myDatasetClass(Dataset):
                 # consistency check
                 assert obs.shape[0] == acts.shape[0], f"Shape mismatch: {obs.shape[0]} vs {acts.shape[0]}"
                 
-                self.obs_list.append(obs)
-                self.act_list.append(acts)
+                self.obs_list.extend(obs)
+                self.act_list.extend(acts)
             
-            s = np.concatenate(self.obs_list, axis=0)  # shape (len(data)*50, 10)
-            a = np.concatenate(self.act_list, axis=0)  # shape (len(data)*50, 2)
+            s = np.array(self.obs_list)  # shape (len(data)*50, 10)
+            a = np.array(self.act_list)  # shape (len(data)*50, 2)
 
             self.obsTensor = torch.tensor(s, dtype=torch.float32)
             self.actTensor = torch.tensor(a, dtype=torch.float32)
