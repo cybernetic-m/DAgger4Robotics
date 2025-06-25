@@ -54,11 +54,12 @@ def train(train_loader, val_loader, model, optimizer, loss_fn, num_epochs, devic
     #  [3,4],     sample 2
     #   ...,
     #  [9, 10]    sample 35000
-    # ]
-    train_a_hat_numpy = train_a_hat_tensor.view(-1,2).cpu().detach().numpy()
-    train_a_pred_numpy = train_a_pred_tensor.view(-1,2).cpu().detach().numpy()
-    val_a_hat_numpy = val_a_hat_tensor.view(-1,2).cpu().detach().numpy()
-    val_a_pred_numpy = val_a_pred_tensor.view(-1,2).cpu().detach().numpy()
+    # ]s
+    
+    train_a_hat_numpy = train_a_hat_tensor.cpu().detach().numpy()
+    train_a_pred_numpy = train_a_pred_tensor.cpu().detach().numpy()
+    val_a_hat_numpy = val_a_hat_tensor.cpu().detach().numpy()
+    val_a_pred_numpy = val_a_pred_tensor.cpu().detach().numpy()
 
     if epoch_vloss < best_vloss:
       best_vloss = epoch_vloss
