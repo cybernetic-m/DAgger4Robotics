@@ -19,10 +19,9 @@ import json
 from tqdm import tqdm
 
 class DAgger():
-    def __init__(self, env, initialDataset, validationDataset, studentPolicy, expertPolicy, optimizer, loss_fn, batch_size, num_epochs, betaMode, device, rollouts_per_iteration, voidInit = False, exponential_beta_k = 0):
+    def __init__(self, env, validationDataset, studentPolicy, expertPolicy, optimizer, loss_fn, batch_size, num_epochs, betaMode, device, rollouts_per_iteration, exponential_beta_k = 0):
 
         self.env = env
-        self.initialDataset = initialDataset  # IT SHOULD BE A MINARI DATASET
         self.validationDataset = validationDataset # IT SHOULD BE A MINARI DATASET (it is use to validate the students)
         self.studentPolicy = studentPolicy
         self.expertPolicy = expertPolicy
@@ -40,7 +39,6 @@ class DAgger():
         if self.betaMode == 'exponential':
           self.k = exponential_beta_k
         # If True, initialize the dataset as void, if False as the Training Minari Dataset
-        self.voidInit = voidInit
 
         # Lists of x (states) and a (actions) collected in Dataset aggregation used for training
         self.x = []
@@ -57,24 +55,10 @@ class DAgger():
             'expert_Nchoice': []
         }
 
-        # Initialize the training and validation dataset with Minari episodes
-        self.initDatasets()
+        # Initialize the validation dataset with Minari episodes
+        self.initDataset()
 
-    def initDatasets(self):
-
-        # Sample all the episodes of the Minari Dataset
-        if not self.voidInit:
-          try:
-            train_episodes = self.initialDataset.sample_episodes(n_episodes=len(self.initialDataset))
-            # Iterate over all the episodes and divide in (state,actions) to save into the lists
-            for ep in train_episodes:
-              self.x.extend(ep.observations[:-1])
-              self.a.extend(ep.actions[:])
-            print(f"Training Dataset correctly loaded.\nObs Space Dim: {len(self.x)}, Action Space Dim: {len(self.a)}")
-          except Exception as e:
-            print(f"Error: {e}")
-        else:
-          print("Training Dataset initialized as void")
+    def initDataset(self):
 
         try:
             val_episodes = self.validationDataset.sample_episodes(n_episodes=len(self.validationDataset))
