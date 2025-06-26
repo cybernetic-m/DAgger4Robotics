@@ -5,9 +5,15 @@ import gymnasium_robotics
 import torch
 import cv2
 import json
+import re
+batch_size=64
+lr=1e-3
+lr_str = format(lr, ".0e")  # '1e-03'
+lr_str = re.sub(r"e-0*(\d+)", r"e-\1", lr_str) 
+kitchen_dataset_type = 'complete'
 
 render = False  # Set to True to render the environment
-video_saving= True # Set to True to save the videos
+video_saving= False # Set to True to save the videos
 if render == False and video_saving==False:
     env = gym.make("FrankaKitchen-v1",tasks_to_complete=['microwave']) # Cration of the environment only for gathering data
 else: #at least one True of render or video_saving
@@ -23,7 +29,7 @@ net_wrapper.summary()
 pi_star = net_wrapper.get_model()
 
 #Load the best expert/student weights
-pi_star.load_state_dict(torch.load('expert_kitchen/deep_expert_batch_512/expert_policy.pt',map_location=torch.device('cpu')))
+pi_star.load_state_dict(torch.load(f"expert_kitchen/kitchen_{kitchen_dataset_type}/batch_size_{batch_size}_lr_{lr_str}/expert_policy.pt",map_location=torch.device('cpu')))
 pi_star.eval()
 
 
@@ -72,5 +78,5 @@ env.close()
 cv2.destroyAllWindows()
 mean_reward_for_episode["mean_of_means"] = total_mean
 #Saving mean rewards in a json file
-with open("mean_rewards.json", "w") as f:
+with open(f"expert_kitchen/kitchen_{kitchen_dataset_type}/batch_size_{batch_size}_lr_{lr_str}/mean_rewards.json", "w") as f:
     json.dump(mean_reward_for_episode, f, indent=4)
