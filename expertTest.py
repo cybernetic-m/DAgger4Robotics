@@ -6,8 +6,8 @@ import cv2
 import json
 import time
 
-render = False  # Set to True to render the environment
-video_saving=True # Set to True to save the videos
+render = True  # Set to True to render the environment
+video_saving=False # Set to True to save the videos
 student= True
 if render == False and video_saving==False:
     env = gym.make("Reacher-v5") # Cration of the environment only for gathering data
@@ -25,14 +25,14 @@ pi_star = net_wrapper.get_model()
 
 #Load the best expert/student weights
 if student == True:
-    pi_star.load_state_dict(torch.load('students_reacher/trained_on_deep_batch_32/student_policy_inverse.pt',map_location=torch.device('cpu')))
+    pi_star.load_state_dict(torch.load('student_policy_17.pt',map_location=torch.device('cpu')))
     #pi_star.load_state_dict(torch.load('students_reacher/student_policy_batch_32/student_policy_inverse.pt',map_location=torch.device('cpu')))
 else:
     pi_star.load_state_dict(torch.load('experts_reacher/deep_expert_policy/expert_policy_512.pt',map_location=torch.device('cpu')))
 pi_star.eval()
 
 
-n_episodes = 100
+n_episodes = 20
 mean_reward_for_episode = {}
 start = time.time()
 for ep in range(n_episodes):

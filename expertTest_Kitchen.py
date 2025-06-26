@@ -11,25 +11,29 @@ lr=1e-3
 lr_str = format(lr, ".0e")  # '1e-03'
 lr_str = re.sub(r"e-0*(\d+)", r"e-\1", lr_str) 
 kitchen_dataset_type = 'complete'
+env_mode='kitchen'
+net_type='simple'
 
-render = False  # Set to True to render the environment
+render = True  # Set to True to render the environment
 video_saving= False # Set to True to save the videos
 if render == False and video_saving==False:
     env = gym.make("FrankaKitchen-v1",tasks_to_complete=['microwave']) # Cration of the environment only for gathering data
 else: #at least one True of render or video_saving
-    env = gym.make("FrankaKitchen-v1",tasks_to_complete=['microwave'], render_mode="rgb_array") # Creation of the Reacher-v5 environment with rgb_array mode
+    env = gym.make("FrankaKitchen-v1",tasks_to_complete=['microwave'], render_mode="rgb_array", robot_noise_ratio=0.0, object_noise_ratio=0.0) # Creation of the Reacher-v5 environment with rgb_array mode
     if video_saving == True:
         #Folder for saving video
         video_folder = "./videos"
-        env = RecordVideo(env, video_folder=video_folder, episode_trigger=lambda e: True, name_prefix="ep_deep_student")
+        env = RecordVideo(env, video_folder=video_folder, episode_trigger=lambda e: True, name_prefix="expert-kitchen-simple")
 
 #Load the pi_star
-net_wrapper = NetworkInterface(net_type='deep',input_dim=20,output_dim=9)
+net_wrapper = NetworkInterface(net_type=net_type,input_dim=20,output_dim=9)
 net_wrapper.summary()
 pi_star = net_wrapper.get_model()
 
 #Load the best expert/student weights
-pi_star.load_state_dict(torch.load(f"expert_kitchen/kitchen_{kitchen_dataset_type}/batch_size_{batch_size}_lr_{lr_str}/expert_policy.pt",map_location=torch.device('cpu')))
+#pi_star.load_state_dict(torch.load(f"expert_policy_simple.pt",map_location=torch.device('cpu')))
+pi_star.load_state_dict(torch.load(f"experts_kitchen/{net_type}/kitchen_{kitchen_dataset_type}/batch_size_{batch_size}_lr_{lr_str}/expert_policy.pt",map_location=torch.device('cpu')))
+#pi_star.load_state_dict(torch.load(f"experts_kitchen/{net_type}/kitchen_{kitchen_dataset_type}/expert_policy_simple.pt",map_location=torch.device('cpu')))
 pi_star.eval()
 
 
@@ -78,5 +82,5 @@ env.close()
 cv2.destroyAllWindows()
 mean_reward_for_episode["mean_of_means"] = total_mean
 #Saving mean rewards in a json file
-with open(f"expert_kitchen/kitchen_{kitchen_dataset_type}/batch_size_{batch_size}_lr_{lr_str}/mean_rewards.json", "w") as f:
+with open(f"experts_kitchen/kitchen_{kitchen_dataset_type}/batch_size_{batch_size}_lr_{lr_str}/mean_rewards.json", "w") as f:
     json.dump(mean_reward_for_episode, f, indent=4)
