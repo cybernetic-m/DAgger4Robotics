@@ -19,11 +19,12 @@ import json
 from tqdm import tqdm
 
 class DAgger():
-    def __init__(self, env, initialDataset, validationDataset, studentPolicy, expertPolicy, optimizer, loss_fn, batch_size, num_epochs, betaMode, device, rollouts_per_iteration, voidInit = False, exponential_beta_k = 0):
+    def __init__(self, env, env_type, validationDataset, studentPolicy, expertPolicy, optimizer, loss_fn, batch_size, num_epochs, betaMode, device, rollouts_per_iteration, exponential_beta_k = 0):
 
         self.env = env
-        self.initialDataset = initialDataset  # IT SHOULD BE A MINARI DATASET
-        self.validationDataset = validationDataset # IT SHOULD BE A MINARI DATASET (it is use to validate the students)
+        self.env_type = env_type # It should be "reacher" or "kitchen" depending on your env
+        # It should be a Minari dataset in case of "reacher", or the microwave dict in case of "kitchen"
+        self.validationDataset = validationDataset 
         self.studentPolicy = studentPolicy
         self.expertPolicy = expertPolicy
         self.device = device
@@ -40,7 +41,6 @@ class DAgger():
         if self.betaMode == 'exponential':
           self.k = exponential_beta_k
         # If True, initialize the dataset as void, if False as the Training Minari Dataset
-        self.voidInit = voidInit
 
         # Lists of x (states) and a (actions) collected in Dataset aggregation used for training
         self.x = []
@@ -57,34 +57,38 @@ class DAgger():
             'expert_Nchoice': []
         }
 
-        # Initialize the training and validation dataset with Minari episodes
-        self.initDatasets()
+        # Initialize the validation dataset with Minari episodes
+        self.initDataset()
 
-    def initDatasets(self):
+    def initDataset(self):
 
-        # Sample all the episodes of the Minari Dataset
-        if not self.voidInit:
+      if self.env_type == 'reacher':
           try:
-            train_episodes = self.initialDataset.sample_episodes(n_episodes=len(self.initialDataset))
-            # Iterate over all the episodes and divide in (state,actions) to save into the lists
-            for ep in train_episodes:
-              self.x.extend(ep.observations[:-1])
-              self.a.extend(ep.actions[:])
-            print(f"Training Dataset correctly loaded.\nObs Space Dim: {len(self.x)}, Action Space Dim: {len(self.a)}")
+              val_episodes = self.validationDataset.sample_episodes(n_episodes=len(self.validationDataset))
+              # Iterate over all the episodes and divide in (state,actions) to save into the lists
+              for ep in val_episodes:
+                self.x_val.extend(ep.observations[:-1])
+                self.a_val.extend(ep.actions[:])
+              print(f"Validation Dataset correctly loaded.\nObs Space Dim: {len(self.x_val)}, Action Space Dim: {len(self.a_val)}")
           except Exception as e:
-            print(f"Error: {e}")
-        else:
-          print("Training Dataset initialized as void")
+              print(f"Error: {e}")
 
-        try:
-            val_episodes = self.validationDataset.sample_episodes(n_episodes=len(self.validationDataset))
-            # Iterate over all the episodes and divide in (state,actions) to save into the lists
-            for ep in val_episodes:
-              self.x_val.extend(ep.observations[:-1])
-              self.a_val.extend(ep.actions[:])
-            print(f"Validation Dataset correctly loaded.\nObs Space Dim: {len(self.x_val)}, Action Space Dim: {len(self.a_val)}")
-        except Exception as e:
-            print(f"Error: {e}")
+      elif self.env_type == 'kitchen':
+          try:
+              # Iterate over all the episodes and divide in (state,actions) to save into the lists
+              for ep_id in self.validationDataset['observations']:
+                obs = self.validationDataset['observations'][ep_id]
+                acts = self.validationDataset['actions'][ep_id]
+                
+                self.x_val.extend(obs)
+                self.a_val.extend(acts)
+                
+              print(f"Validation Dataset correctly loaded.\nObs Space Dim: {len(self.x_val)}, Action Space Dim: {len(self.a_val)}")
+          except Exception as e:
+              print(f"Error: {e}")
+      else:
+          print("You should select env_type: 'reacher' or 'kitchen'")
+
 
     def beta_fn(self, n_iterations):
         if self.betaMode == 'linear':
@@ -108,7 +112,17 @@ class DAgger():
             done = False
             while not done:
                 # Convert observation to a Tensor
-                observationTensor = torch.tensor(observation, dtype=torch.float32, device=self.device)
+                if self.env_type == 'reacher':
+                  observationTensor = torch.tensor(observation, dtype=torch.float32, device=self.device)
+                elif self.env_type == 'kitchen':
+                  # In case of kitchen we take the 'observation' key inside the dict observation and we cut
+                  # to select only the 20 inputs needed for our task
+                  observationTensor = torch.tensor(observation['observation'], dtype=torch.float32, device=self.device)
+                  observationTensor = torch.cat([
+                                  observationTensor[0:18],          # joint angles, gripper translations, joint velocities
+                                  observationTensor[31].unsqueeze(0),  # microwave door angle
+                                  observationTensor[52].unsqueeze(0)   # microwave door angular velocity
+                                  ])
 
                 # Get action from either student or expert policy depending on beta
                 # random.random() give a number between [0,1]
@@ -307,20 +321,3 @@ class DAgger():
           json.dump(self.other_param_dict, f, indent=4)
 
         print(f"The better student Policy is the student_policy_{np.argmin(vloss_list)}.pt")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
