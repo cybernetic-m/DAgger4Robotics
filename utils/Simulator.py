@@ -22,6 +22,15 @@ import torch
 import cv2
 import json
 
+if is_running_in_colab():
+    #Display on colab
+    from pyvirtualdisplay import Display
+    from IPython.display import Video, display, clear_output
+    display = Display(visible=0, size=(200, 200))
+
+    display.start()
+    from google.colab.patches import cv2_imshow
+
 class Simulator:
     def __init__(self,env_mode, net_type, path_to_model, n_episodes=1, render=False, video_saving=True, robot_noise=0.01, device='cpu', framerate_per_episode=5):
         self.env_mode = env_mode
@@ -33,6 +42,8 @@ class Simulator:
         self.path_to_model = path_to_model
         self.device=device
         self.framerate_per_episode=framerate_per_episode #Only used in colab
+
+        print(f'Device is {self.device}')
     
         self.env = self._make_env()
         self.pi_star = self._load_policy()
@@ -79,7 +90,7 @@ class Simulator:
     
     def _process_observation(self, obs):
         if self.env_mode == 'kitchen':
-            obs = torch.tensor(obs['observation'], dtype=torch.float32)
+            obs = torch.tensor(obs['observation'], dtype=torch.float32, device=self.device)
             selected = torch.cat([
                 obs[0:18],              # proprioception
                 obs[31].unsqueeze(0),   # microwave angle
@@ -87,7 +98,7 @@ class Simulator:
             ])
             return selected
         else:
-            return torch.tensor(obs, dtype=torch.float32)
+            return torch.tensor(obs, dtype=torch.float32, device=self.device)
     
     def run(self):
         mean_reward_for_episode = {}
