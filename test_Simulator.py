@@ -48,7 +48,7 @@ path_to_model='experts_reacher/deep/reacher_medium_not_filtered/batch_size_128_l
 EXPERT REACHER SIMPLE (OLD)
 env_mode='reacher',  # o 'reacher'
 net_type='simple',
-path_to_model='experts_reacher/simple/reacher_expert_not_filtered/batch_size_128_lr_1e-3/expert_policy.pt'
+path_to_model='experts_reacher/simple/reacher_expert_not_filtered/batch_size_512_lr_1e-3/expert_policy.pt'
 
 EXPERT REACHER SIMPLE (OLD) FILTERED AND FROM WHICH WE TOOK VIDEOS
 env_mode='reacher',  # o 'reacher'
