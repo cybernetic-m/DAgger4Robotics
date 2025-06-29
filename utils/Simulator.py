@@ -120,9 +120,10 @@ class Simulator:
                 step += 1
 
                 if self.render:
-                    if is_running_in_colab() and step % self.framerate_per_episode == 0:
-                        frame=self.env.render()
-                        cv2_imshow(frame[:, :, ::-1])  # Convert RGB → BGR
+                    if is_running_in_colab():
+                        if step % self.framerate_per_episode == 0:
+                            frame=self.env.render()
+                            cv2_imshow(frame[:, :, ::-1])  # Convert RGB → BGR
                     else:
                         frame = self.env.render()
                         cv2.imshow("Env", frame[:, :, ::-1])
