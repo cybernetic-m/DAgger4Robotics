@@ -15,7 +15,7 @@ sys.path.append(utils_path)
 # Import section
 from calculate_metrics import calculate_metrics
 
-def test(model, test_dataloader, loss_fn, device, state_action=True):
+def test(model, test_dataloader, loss_fn, device):
 
     model.eval()
     
@@ -35,13 +35,9 @@ def test(model, test_dataloader, loss_fn, device, state_action=True):
 
     with torch.no_grad():
         for batch in tqdm(test_dataloader, desc="Testing..."):
-            if state_action == True:
-                inputs, a_hat = batch
-                inputs = inputs.to(device)
-                a_hat = a_hat.to(device)
-            else:
-                inputs = batch['observations'][:, :-1].float().to(device)   # Inputs to the model, excluding the last time step
-                a_hat = batch["actions"].to(device) # Ground truth actions from the batch
+            inputs, a_hat = batch
+            inputs = inputs.to(device)
+            a_hat = a_hat.to(device)
             start_time = time.time()    # Start the timer for inference
             a_pred = model(inputs)      #  Predict actions using the model
             inference_time_list.append(time.time() - start_time)    # Record the inference time
