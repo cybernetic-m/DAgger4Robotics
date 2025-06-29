@@ -1,6 +1,6 @@
 import torch
-def convert_fc_to_sequential_keys(dict_path):
-    old_state_dict = torch.load(dict_path, map_location=torch.device('cpu'))
+def convert_fc_to_sequential_keys(dict_path, device='cpu'):
+    old_state_dict = torch.load(dict_path, map_location=torch.device(device))
 
     # Mappa vecchi nomi → nuovi nomi
     key_mapping = {

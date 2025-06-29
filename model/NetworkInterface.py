@@ -3,8 +3,8 @@ try: #import working in colab
     from DAgger4Robotics.model.DeepPolicyNet import DeepPolicyNet
 except ModuleNotFoundError:
     # fallback when executed in local
-    from .SimplePolicyNet import SimplePolicyNet
-    from .DeepPolicyNet import DeepPolicyNet
+    from model.SimplePolicyNet import SimplePolicyNet
+    from model.DeepPolicyNet import DeepPolicyNet
 
 class NetworkInterface:
     def __init__(self, net_type, input_dim, output_dim):
