@@ -1,6 +1,5 @@
 import gymnasium as gym
-from gymnasium.wrappers import RecordVideo #INSTALL pip install "gymnasium[other]"
-#from model.NetworkInterface import NetworkInterface
+from gymnasium.wrappers import RecordVideo
 import sys
 import os
 
@@ -9,6 +8,7 @@ utils_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../utils')
 
 # Get the absolute paths of the directories containing the model
 model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../model'))
+
 # Add these directories to sys.path
 sys.path.append(utils_path)
 sys.path.append(model_path)
@@ -22,6 +22,7 @@ import torch
 import cv2
 import json
 
+# Import to be used in colab that enable to rendering 
 if is_running_in_colab():
     #Display on colab
     from pyvirtualdisplay import Display
@@ -36,14 +37,12 @@ class Simulator:
         self.env_mode = env_mode
         self.render = render
         self.video_saving = video_saving
-        self.robot_noise = robot_noise
+        self.robot_noise = robot_noise #Only used in Franka-Kitchen
         self.n_episodes = n_episodes
         self.net_type = net_type
         self.path_to_model = path_to_model
         self.device=device
         self.framerate_per_episode=framerate_per_episode #Only used in colab
-
-        print(f'Device is {self.device}')
     
         self.env = self._make_env()
         self.pi_star = self._load_policy()
@@ -55,13 +54,13 @@ class Simulator:
                 "robot_noise_ratio": self.robot_noise,
             }
             self.env_name="FrankaKitchen-v1"
-            self.input_dim=20
-            self.output_dim=9
+            self.input_dim=20 #Input of the Network
+            self.output_dim=9 #Output of the Network
         else:
             self.env_name="Reacher-v5"
             kwargs = {}
-            self.input_dim=10
-            self.output_dim=2
+            self.input_dim=10 #Input of the Network
+            self.output_dim=2 #Output of the Network
 
         if self.render or self.video_saving:
             kwargs["render_mode"] = "rgb_array"
@@ -71,7 +70,7 @@ class Simulator:
         if self.video_saving:
             video_folder = "./new_videos"
             os.makedirs(video_folder, exist_ok=True)
-            env = RecordVideo(env, video_folder=video_folder, episode_trigger=lambda e: True, name_prefix="aaaaa")
+            env = RecordVideo(env, video_folder=video_folder, episode_trigger=lambda e: True, name_prefix=f"{self.env_mode}")
         return env
     
     def _load_policy(self):
@@ -80,7 +79,7 @@ class Simulator:
         pi_star = net_wrapper.get_model().to(self.device)
 
         if "experts_reacher/simple" in self.path_to_model:
-            state_dict = convert_fc_to_sequential_keys(self.path_to_model,self.device)
+            state_dict = convert_fc_to_sequential_keys(self.path_to_model,self.device) #Manage the old naming of the simple Network
         else:
             state_dict = torch.load(self.path_to_model, map_location=torch.device(self.device))
 
@@ -91,14 +90,14 @@ class Simulator:
     def _process_observation(self, obs):
         if self.env_mode == 'kitchen':
             obs = torch.tensor(obs['observation'], dtype=torch.float32, device=self.device)
-            selected = torch.cat([
+            selected = torch.cat([      # we do not need all the observation, but only:
                 obs[0:18],              # proprioception
                 obs[31].unsqueeze(0),   # microwave angle
                 obs[52].unsqueeze(0)    # microwave angular velocity
             ])
             return selected
         else:
-            return torch.tensor(obs, dtype=torch.float32, device=self.device)
+            return torch.tensor(obs, dtype=torch.float32, device=self.device) #For reacher all the Obs Space
     
     def run(self):
         mean_reward_for_episode = {}
@@ -119,11 +118,11 @@ class Simulator:
                 total_reward += reward
                 step += 1
 
-                if self.render:
+                if self.render: #Managing rendering
                     if is_running_in_colab():
                         if step % self.framerate_per_episode == 0:
                             frame=self.env.render()
-                            cv2_imshow(frame[:, :, ::-1])  # Convert RGB → BGR
+                            cv2_imshow(frame[:, :, ::-1])
                     else:
                         frame = self.env.render()
                         cv2.imshow("Env", frame[:, :, ::-1])

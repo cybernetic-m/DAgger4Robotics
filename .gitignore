@@ -205,3 +205,5 @@ cython_debug/
 ./venv
 videos
 mean_rewards.json
+mean_rewards_reaher.json
+mean_rewards_kitchen.json

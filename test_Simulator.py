@@ -1,12 +1,12 @@
 from utils.Simulator import Simulator
 sim = Simulator(
-        env_mode='reacher',  # o 'reacher'
+        env_mode='kitchen',
         net_type='deep',
-        path_to_model='experts_reacher/deep/reacher_expert_filtered/batch_size_128_lr_1e-4/expert_policy.pt',
+        path_to_model='experts_kitchen/deep/kitchen_complete/batch_size_64_lr_1e-3/expert_policy.pt',
         n_episodes=5,
         render=True,
         video_saving=False,
-        robot_noise=0.3378,
+        robot_noise=0.01,
         device='cpu'
     )
 sim.run()
