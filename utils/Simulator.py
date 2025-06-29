@@ -139,7 +139,8 @@ class Simulator:
 
         print(f"Mean of means: {total_mean}")
         self.env.close()
-        cv2.destroyAllWindows()
+        if not is_running_in_colab():
+            cv2.destroyAllWindows()
 
         with open(f"mean_rewards_{self.env_mode}.json", "w") as f:
             json.dump(mean_reward_for_episode, f, indent=4)
