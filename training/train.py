@@ -3,7 +3,7 @@ import torch
 from DAgger4Robotics.training.one_epoch import one_epoch
 from DAgger4Robotics.utils.calculate_metrics import calculate_metrics
 
-def train(train_loader, val_loader, model, optimizer, loss_fn, num_epochs, device , state_action=True):
+def train(train_loader, val_loader, model, optimizer, loss_fn, num_epochs, device):
 
   epoch_loss = 0
   epoch_val_loss = 0
@@ -32,8 +32,8 @@ def train(train_loader, val_loader, model, optimizer, loss_fn, num_epochs, devic
     #   ...,
     #  [ [[1, 2], [3,4], ..., [10,11]], ..., [[1.1, 2.2], [3.3,4.4], ..., [10.1,11.1]] ],  list element 28: tensor (88, 50, 2)
     # ]
-    epoch_loss, train_a_hat_list, train_a_pred_list = one_epoch(train_loader, model, optimizer, loss_fn, device, state_action=state_action)
-    epoch_vloss, val_a_hat_list, val_a_pred_list = one_epoch(val_loader, model, optimizer, loss_fn, device, state_action=state_action, validation = True)
+    epoch_loss, train_a_hat_list, train_a_pred_list = one_epoch(train_loader, model, optimizer, loss_fn, device)
+    epoch_vloss, val_a_hat_list, val_a_pred_list = one_epoch(val_loader, model, optimizer, loss_fn, device, validation = True)
 
     # Concatenate all the tensors in the list through the batch dimension (256 * 27 + 88 = 7000) => (7000, 50, 2) becoming a big tensor
     #[
