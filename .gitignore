@@ -207,3 +207,7 @@ videos
 mean_rewards.json
 mean_rewards_reaher.json
 mean_rewards_kitchen.json
+test_Simulator.py
+json_analysis.py
+expertTest.py
+expertTest_Kitchen.py
