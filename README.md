@@ -25,7 +25,6 @@ In order to use the BCO method, that is a supervised learning method, we have us
 1. [Reacher Expert](https://minari.farama.org/datasets/mujoco/reacher/expert-v0/) and [Reacher Medium](https://minari.farama.org/datasets/mujoco/reacher/medium-v0/) datasets
 2. [Franka Kitchen Complete](https://minari.farama.org/datasets/D4RL/kitchen/complete-v2/) (we have cutted the complete trajectories in order to do only the "microwave" task!)
 
-
 ---
 
 ## 🔧 Instructions
@@ -33,55 +32,35 @@ In order to use the BCO method, that is a supervised learning method, we have us
 ### 1. Clone the repository
 
 ```sh
-git clone https://github.com/yourusername/yourproject.git
-cd yourproject
+git clone "https://github.com/cybernetic-m/DAgger4Robotics.git"
+cd DAgger4Robotics
 ```
+To run the following notebooks, you can upload the notebook directly on [Colab](https://colab.research.google.com/).
 
-### 2. Run the 
+### 2. Run the "expert.ipynb" notebook (Behavioral Cloning Training)
+In this notebook you can train with BCO both an expert for Reacher and Franka Kitchen.
 
-#### On Ubuntu/Linux:
+### 3. Run the "reacher.ipynb" notebook (DAgger for Reacher)
+In this notebook you can train with DAgger a student for Reacher env.
 
-```sh
-sudo apt-get install python3-venv  # If not already installed
-python3 -m venv venv
-source venv/bin/activate
-```
+### 4. Run the "kitchen.ipynb" notebook (DAgger for Franka Kitchen)
+In this notebook you can train with DAgger a student for Franka Kitchen env.
+
+
 ## 🗂 Folder Structure
 
 ```
-yourproject/
-├── public/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── ...
-├── .env.example
-└── README.md
+
 ```
 
 ---
 
-## 🎬 Demo
+## 🎬 
 
 [🌐 Live Demo](https://your-demo-link.com)  
 [📘 Documentation](https://your-docs-link.com)
 
 ![Demo GIF](path/to/demo.gif) <!-- Replace with actual demo GIF -->
-
----
-
-## 📸 Screenshots
-
-| UI View | Description |
-|--------|-------------|
-| ![Home](path/to/screenshot1.png) | Home screen |
-| ![Feature](path/to/screenshot2.png) | Feature showcase |
-
----
-
-
----
-
 
 ---
 
