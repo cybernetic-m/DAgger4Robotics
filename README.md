@@ -2,6 +2,10 @@
 
 <img src="./images/image.png" alt="Description" width="400" height = "300" />
 
+<p align="center">
+  <img src="images/reacher_1.gif" width="45%" />
+  <img src="images/kitchen_1.gif" width="45%" />
+</p>
 
 ## 📖 Description
 In this project we have implemented Behavioral Cloning (BCO) and DAgger (Dataset Aggregation) in two reinforcement learning environments:
@@ -79,38 +83,15 @@ yourproject/
 
 ---
 
-## 🧪 Running Tests
-
-```sh
-npm test  # or pytest / unittest depending on your project
-```
-
----
-
-## ⚙️ Configuration
-
-If your project uses environment variables, copy `.env.example` to `.env` and configure as needed:
-
-```sh
-cp .env.example .env
-```
-
----
-
-## 🧱 Built With
-
-- [React](https://reactjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Node.js](https://nodejs.org/)
-- Any other major libraries/frameworks
 
 ---
 
 ## 👤 Author
 
-**Your Name**  
+**Massimo Romano**  
 GitHub: [@yourhandle](https://github.com/yourhandle)  
 LinkedIn: [yourprofile](https://linkedin.com/in/yourprofile)
+Website: [yourprofile](https://linkedin.com/in/yourprofile)
 
 ---
 
@@ -118,15 +99,3 @@ LinkedIn: [yourprofile](https://linkedin.com/in/yourprofile)
 
 This project is licensed under the MIT License.  
 See the [LICENSE](./LICENSE) file for details.
-
----
-
-## 🙌 Acknowledgments
-
-- Inspiration, libraries, or tools used  
-- Tutorials or reference material  
-- Contributors
-
----
-
-> "_A short motivational quote or development philosophy._"
