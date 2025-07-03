@@ -55,12 +55,24 @@ In this notebook you can train with DAgger a student for Franka Kitchen env.
 
 ---
 
-## 🎬 
+## 📊 Reacher Performance
 
-[🌐 Live Demo](https://your-demo-link.com)  
-[📘 Documentation](https://your-docs-link.com)
+<p align="left">
+  <img src="images/reacher_1.gif" width="33%" />
+  <img src="images/reacher_2.gif" width="33%" />
+   <img src="images/reacher_3.gif" width="33%" />
+</p>
 
-![Demo GIF](path/to/demo.gif) <!-- Replace with actual demo GIF -->
+<p align="left">
+  <img src="images/reacher_1.gif" width="45%" />
+  <img src="images/kitchen_1.gif" width="45%" />
+</p>
+
+---
+
+## 📊 Franka Kitchen Performance
+
+![Demo GIF](path/to/demo.gif) 
 
 ---
 
