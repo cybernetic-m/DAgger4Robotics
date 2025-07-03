@@ -2,7 +2,7 @@
 
 <img src="./images/image.png" alt="Description" width="400" height = "300" />
 
-<p align="center">
+<p align="left">
   <img src="images/reacher_1.gif" width="45%" />
   <img src="images/kitchen_1.gif" width="45%" />
 </p>
