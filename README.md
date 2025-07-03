@@ -8,11 +8,11 @@ In this project we have implemented Behavioral Cloning (BCO) and DAgger (Dataset
 
 1. [Reacher](https://gymnasium.farama.org/environments/mujoco/reacher/) (Gymnasium)
    
-<img src="./images/reacher.png" alt="Description" width="400" height = "300" />
+<img src="./images/reacher.png" alt="Description" width="200" height = "200" />
 
 3. [Franka Kitchen](https://robotics.farama.org/envs/franka_kitchen/franka_kitchen/) (Gymnasium-Robotics)
    
-<img src="./images/FrankaKitchen.png" alt="Description" width="400" height = "300" />
+<img src="./images/FrankaKitchen.png" alt="Description" width="200" height = "200" />
 
 In particular we have used firstly the Reacher environment in order to test DAgger in a more "simple" env, while after that we have tested its performance in a more complicated one, Franka Kitchen. 
 
