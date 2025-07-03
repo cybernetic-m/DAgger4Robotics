@@ -2,12 +2,11 @@
 
 <img src="./images/image.png" alt="Description" width="400" height = "300" />
 
+## 📖 Description
 <p align="left">
   <img src="images/reacher_1.gif" width="45%" />
   <img src="images/kitchen_1.gif" width="45%" />
 </p>
-
-## 📖 Description
 In this project we have implemented Behavioral Cloning (BCO) and DAgger (Dataset Aggregation) in two reinforcement learning environments:
 
 1. [Reacher](https://gymnasium.farama.org/environments/mujoco/reacher/) (Gymnasium)
