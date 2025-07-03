@@ -25,9 +25,7 @@ For BCO we have used an MLP deep network.
 **DAgger**
 To train the student we have used DAgger algorithm with a Shallow MLP network.
 
-<img src="./images/slide_8.png" alt="Description" width="650" height = "300" />
-
-
+<img src="./images/slide_8.png" alt="Description" />
 
 In particular we have used firstly the Reacher environment in order to test DAgger in a more "simple" env, while after that we have tested its performance in a more complicated one, Franka Kitchen. 
 
