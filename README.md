@@ -25,7 +25,7 @@ For BCO we have used an MLP deep network.
 
 **DAgger**
 
-To train the student we have used DAgger algorithm with a Shallow MLP network.
+To train the student we have used DAgger algorithm with a Shallow MLP network (for Policy Distillation).
 
 <img src="./images/slide_8.png" alt="Description" />
 
