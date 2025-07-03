@@ -4,7 +4,7 @@
 
 ## 📖 Description
 <p align="left">
-  <img src="images/reacher_1.gif" width="45%" />
+  <img src="images/reacher_1_new.gif" width="45%" />
   <img src="images/kitchen_1.gif" width="45%" />
 </p>
 In this project we have implemented Behavioral Cloning (BCO) and DAgger (Dataset Aggregation) in two reinforcement learning environments:
@@ -16,6 +16,16 @@ In this project we have implemented Behavioral Cloning (BCO) and DAgger (Dataset
 3. [Franka Kitchen](https://robotics.farama.org/envs/franka_kitchen/franka_kitchen/) (Gymnasium-Robotics)
    
 <img src="./images/FrankaKitchen.png" alt="Description" width="200" height = "200" />
+
+BCO
+For BCO we have used an MLP deep network.
+<img src="./images/slide_7.png" alt="Description" width="400" height = "300" />
+
+DAgger
+To train the student we have used DAgger algorithm with a Shallow MLP network.
+<img src="./images/slide_8.png" alt="Description" width="400" height = "300" />
+
+
 
 In particular we have used firstly the Reacher environment in order to test DAgger in a more "simple" env, while after that we have tested its performance in a more complicated one, Franka Kitchen. 
 
