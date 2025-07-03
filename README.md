@@ -68,7 +68,7 @@ This is a comparison between the Deep MLP Teacher (the left) and the Shallow MLP
 
 <p align="left">
   <img src="images/reacher_4.gif" width="45%" />
-  <img src="images/kitchen_5.gif" width="45%" />
+  <img src="images/reacher_5.gif" width="45%" />
 </p>
 
 ---
