@@ -56,6 +56,7 @@ In this notebook you can train with DAgger a student for Franka Kitchen env.
 ---
 
 ## 📊 Reacher Performance
+For Reacher we have tested three agent using the Expert dataset (the left), a filtered dataset (homemade) taking only mean reward over -0.1 (the center), and finally the Medium dataset (the right).
 
 <p align="left">
   <img src="images/reacher_1.gif" width="33%" />
@@ -63,9 +64,11 @@ In this notebook you can train with DAgger a student for Franka Kitchen env.
    <img src="images/reacher_3.gif" width="33%" />
 </p>
 
+This is a comparison between the Deep MLP Teacher (the left) and the Shallow MLP student (the right).
+
 <p align="left">
-  <img src="images/reacher_1.gif" width="45%" />
-  <img src="images/kitchen_1.gif" width="45%" />
+  <img src="images/reacher_4.gif" width="45%" />
+  <img src="images/kitchen_5.gif" width="45%" />
 </p>
 
 ---
