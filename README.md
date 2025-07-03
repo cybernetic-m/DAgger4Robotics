@@ -1,14 +1,18 @@
 # 👨‍🍳 Imitation Learning in a kitchen environment 🤖
 
-![Banner](images/image.png)
+<img src="./images/image.png" alt="Description" width="400" height = "300" />
+
 
 ## 📖 Description
 In this project we have implemented Behavioral Cloning (BCO) and DAgger (Dataset Aggregation) in two reinforcement learning environments:
 
 1. [Reacher](https://gymnasium.farama.org/environments/mujoco/reacher/) (Gymnasium)
-   ![Banner](images/reacher.png) 
+   
+   ![Banner](images/reacher.png)
+   
 3. [Franka Kitchen](https://robotics.farama.org/envs/franka_kitchen/franka_kitchen/) (Gymnasium-Robotics)
-   ![Banner](images/frankakitchen.png)
+   
+   ![Banner](images/FrankaKitchen.png)
 
 In particular we have used firstly the Reacher environment in order to test DAgger in a more "simple" env, while after that we have tested its performance in a more complicated one, Franka Kitchen. 
 
