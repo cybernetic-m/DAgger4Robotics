@@ -17,13 +17,15 @@ In this project we have implemented Behavioral Cloning (BCO) and DAgger (Dataset
    
 <img src="./images/FrankaKitchen.png" alt="Description" width="200" height = "200" />
 
-BCO
+**BCO**
 For BCO we have used an MLP deep network.
-<img src="./images/slide_7.png" alt="Description" width="400" height = "300" />
 
-DAgger
+<img src="./images/slide_7.png" alt="Description" width="200" height = "400" />
+
+**DAgger**
 To train the student we have used DAgger algorithm with a Shallow MLP network.
-<img src="./images/slide_8.png" alt="Description" width="400" height = "300" />
+
+<img src="./images/slide_8.png" alt="Description" width="200" height = "400" />
 
 
 
