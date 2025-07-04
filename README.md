@@ -62,6 +62,344 @@ In this notebook you can train with DAgger a student for Franka Kitchen env.
 ## 🗂 Folder Structure
 
 ```
+├── dagger
+│   └── DAgger.py
+├── dataset
+│   └── myDatasetClass.py
+├── expert.ipynb
+├── experts_kitchen
+│   ├── deep
+│   │   └── kitchen_complete
+│   │       ├── batch_size_128_lr_1e-3
+│   │       │   ├── expert_policy.pt
+│   │       │   ├── test_metrics.json
+│   │       │   ├── train_metrics.json
+│   │       │   └── val_metrics.json
+│   │       ├── batch_size_128_lr_1e-4
+│   │       │   ├── expert_policy.pt
+│   │       │   ├── test_metrics.json
+│   │       │   ├── train_metrics.json
+│   │       │   └── val_metrics.json
+│   │       ├── batch_size_256_lr_1e-3
+│   │       │   ├── expert_policy.pt
+│   │       │   ├── test_metrics.json
+│   │       │   ├── train_metrics.json
+│   │       │   └── val_metrics.json
+│   │       ├── batch_size_256_lr_1e-4
+│   │       │   ├── expert_policy.pt
+│   │       │   ├── test_metrics.json
+│   │       │   ├── train_metrics.json
+│   │       │   └── val_metrics.json
+│   │       ├── batch_size_32_lr_1e-3
+│   │       │   ├── expert_policy.pt
+│   │       │   ├── test_metrics.json
+│   │       │   ├── train_metrics.json
+│   │       │   └── val_metrics.json
+│   │       ├── batch_size_32_lr_1e-4
+│   │       │   ├── expert_policy.pt
+│   │       │   ├── test_metrics.json
+│   │       │   ├── train_metrics.json
+│   │       │   └── val_metrics.json
+│   │       ├── batch_size_512_lr_1e-3
+│   │       │   ├── expert_policy.pt
+│   │       │   ├── test_metrics.json
+│   │       │   ├── train_metrics.json
+│   │       │   └── val_metrics.json
+│   │       ├── batch_size_512_lr_1e-4
+│   │       │   ├── expert_policy.pt
+│   │       │   ├── test_metrics.json
+│   │       │   ├── train_metrics.json
+│   │       │   └── val_metrics.json
+│   │       ├── batch_size_64_lr_1e-3
+│   │       │   ├── expert_policy.pt
+│   │       │   ├── mean_rewards_cold_start.json
+│   │       │   ├── mean_rewards_cold_start_noise_0.04.json
+│   │       │   ├── mean_rewards_cold_start_noise_0.31.json
+│   │       │   ├── mean_rewards_cold_start_noise_0.3378.json
+│   │       │   ├── mean_rewards_noise_0.15.json
+│   │       │   ├── mean_rewards_noise_0.3378.json
+│   │       │   ├── mean_rewards_noise_0.3.json
+│   │       │   ├── mean_rewards_normal.json
+│   │       │   ├── test_metrics.json
+│   │       │   ├── train_metrics.json
+│   │       │   └── val_metrics.json
+│   │       └── batch_size_64_lr_1e-4
+│   │           ├── expert_policy.pt
+│   │           ├── test_metrics.json
+│   │           ├── train_metrics.json
+│   │           └── val_metrics.json
+│   └── simple
+│       └── kitchen_complete
+│           └── batch_size_64_lr_1e-3
+│               ├── expert_policy.pt
+│               ├── mean_rewards_normal.json
+│               ├── test_metrics.json
+│               ├── train_metrics.json
+│               └── val_metrics.json
+├── experts_reacher
+│   ├── deep
+│   │   ├── reacher_expert_filtered
+│   │   │   └── batch_size_128_lr_1e-4
+│   │   │       ├── expert_policy.pt
+│   │   │       ├── mean_rewards_reacher.json
+│   │   │       ├── test_metrics.json
+│   │   │       ├── test_metrics_on_expert_test_set.json
+│   │   │       ├── train_metrics.json
+│   │   │       └── val_metrics.json
+│   │   ├── reacher_expert_not_filtered
+│   │   │   ├── batch_size_128_lr_1e-3
+│   │   │   │   ├── expert_policy.pt
+│   │   │   │   ├── test_metrics.json
+│   │   │   │   ├── train_metrics.json
+│   │   │   │   └── val_metrics.json
+│   │   │   ├── batch_size_128_lr_1e-4
+│   │   │   │   ├── expert_policy.pt
+│   │   │   │   ├── mean_rewards_reacher.json
+│   │   │   │   ├── test_metrics.json
+│   │   │   │   ├── train_metrics.json
+│   │   │   │   └── val_metrics.json
+│   │   │   ├── batch_size_256_lr_1e-3
+│   │   │   │   ├── expert_policy.pt
+│   │   │   │   ├── test_metrics.json
+│   │   │   │   ├── train_metrics.json
+│   │   │   │   └── val_metrics.json
+│   │   │   ├── batch_size_512_lr_1e-3
+│   │   │   │   ├── expert_policy.pt
+│   │   │   │   ├── test_metrics.json
+│   │   │   │   ├── train_metrics.json
+│   │   │   │   └── val_metrics.json
+│   │   │   └── batch_size_64_lr_1e-3
+│   │   │       ├── expert_policy.pt
+│   │   │       ├── test_metrics.json
+│   │   │       ├── train_metrics.json
+│   │   │       └── val_metrics.json
+│   │   └── reacher_medium_not_filtered
+│   │       └── batch_size_128_lr_1e-4
+│   │           ├── expert_policy.pt
+│   │           ├── mean_rewards_reacher.json
+│   │           ├── test_metrics.json
+│   │           ├── test_metrics_on_expert_test_set.json
+│   │           ├── train_metrics.json
+│   │           └── val_metrics.json
+│   └── simple
+│       ├── reacher_expert_filtered
+│       │   ├── batch_size_128_lr_1e-3
+│       │   │   ├── expert_policy.pt
+│       │   │   ├── test_metrics.json
+│       │   │   ├── train_metrics.json
+│       │   │   └── val_metrics.json
+│       │   ├── batch_size_256_lr_1e-3
+│       │   │   ├── expert_policy.pt
+│       │   │   ├── test_metrics.json
+│       │   │   ├── train_metrics.json
+│       │   │   └── val_metrics.json
+│       │   ├── batch_size_32_lr_1e-3
+│       │   │   ├── expert_policy.pt
+│       │   │   ├── test_metrics.json
+│       │   │   ├── train_metrics.json
+│       │   │   └── val_metrics.json
+│       │   ├── batch_size_512_lr_1e-3
+│       │   │   ├── expert_policy.pt
+│       │   │   ├── test_metrics.json
+│       │   │   ├── train_metrics.json
+│       │   │   └── val_metrics.json
+│       │   └── batch_size_64_lr_1e-3
+│       │       ├── expert_policy.pt
+│       │       ├── test_metrics.json
+│       │       ├── train_metrics.json
+│       │       └── val_metrics.json
+│       └── reacher_expert_not_filtered
+│           ├── batch_size_128_lr_1e-3
+│           │   ├── expert_policy.pt
+│           │   ├── test_metrics.json
+│           │   ├── train_metrics.json
+│           │   └── val_metrics.json
+│           ├── batch_size_256_lr_1e-3
+│           │   ├── expert_policy.pt
+│           │   ├── test_metrics.json
+│           │   ├── train_metrics.json
+│           │   └── val_metrics.json
+│           ├── batch_size_32_lr_1e-3
+│           │   ├── expert_policy.pt
+│           │   ├── test_metrics.json
+│           │   ├── train_metrics.json
+│           │   └── val_metrics.json
+│           ├── batch_size_512_lr_1e-3
+│           │   ├── expert_policy.pt
+│           │   ├── test_metrics.json
+│           │   ├── train_metrics.json
+│           │   └── val_metrics.json
+│           └── batch_size_64_lr_1e-3
+│               ├── expert_policy.pt
+│               ├── test_metrics.json
+│               ├── train_metrics.json
+│               └── val_metrics.json
+├── images
+│   ├── FrankaKitchen.png
+│   ├── image.png
+│   ├── kitchen_10.gif
+│   ├── kitchen_1.gif
+│   ├── kitchen_1.png
+│   ├── kitchen_2.gif
+│   ├── kitchen_2.png
+│   ├── kitchen_3.gif
+│   ├── kitchen_4.gif
+│   ├── kitchen_5.gif
+│   ├── kitchen_6.gif
+│   ├── kitchen_7.gif
+│   ├── kitchen_8.gif
+│   ├── kitchen_9.gif
+│   ├── reacher_1.gif
+│   ├── reacher_1_new.gif
+│   ├── reacher_1.png
+│   ├── reacher_2.gif
+│   ├── reacher_2_new.gif
+│   ├── reacher_2.png
+│   ├── reacher_3.gif
+│   ├── reacher_3_new.gif
+│   ├── reacher_4.gif
+│   ├── reacher_4_new.gif
+│   ├── reacher_5.gif
+│   ├── reacher_5_new.gif
+│   ├── reacher.png
+│   ├── slide_7.png
+│   └── slide_8.png
+├── kitchen.ipynb
+├── LICENSE
+├── model
+│   ├── DeepPolicyNet.py
+│   ├── NetworkInterface.py
+│   └── SimplePolicyNet.py
+├── reacher.ipynb
+├── README.md
+├── simulator
+│   └── Simulator.py
+├── students_kitchen
+│   └── simple
+│       └── kitchen_complete
+│           ├── batch_size_10_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_inverse_exponential_beta_k_0.5
+│           │   ├── student_policy_19.pt
+│           │   ├── train_metrics_student_19.json
+│           │   └── val_metrics_student_19.json
+│           ├── batch_size_128_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_inverse_exponential_beta_k_0.5
+│           │   ├── student_policy_18.pt
+│           │   ├── train_metrics_student_18.json
+│           │   └── val_metrics_student_18.json
+│           ├── batch_size_256_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_inverse_exponential_beta_k_0.5
+│           │   ├── student_policy_18.pt
+│           │   ├── train_metrics_student_18.json
+│           │   └── val_metrics_student_18.json
+│           ├── batch_size_3_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_inverse_exponential_beta_k_0.5
+│           │   ├── student_policy_11.pt
+│           │   ├── train_metrics_student_11.json
+│           │   └── val_metrics_student_11.json
+│           ├── batch_size_512_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_0.1
+│           │   ├── student_policy_18.pt
+│           │   ├── train_metrics_student_18.json
+│           │   └── val_metrics_student_18.json
+│           ├── batch_size_512_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_0.2
+│           │   ├── student_policy_17.pt
+│           │   ├── train_metrics_student_17.json
+│           │   └── val_metrics_student_17.json
+│           ├── batch_size_512_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_0.3
+│           │   ├── mean_rewards_cold_start.json
+│           │   ├── mean_rewards_cold_start_noise_0.04.json
+│           │   ├── mean_rewards_cold_start_noise_0.31.json
+│           │   ├── mean_rewards_cold_start_noise_0.3378.json
+│           │   ├── mean_rewards_noise_0.15.json
+│           │   ├── mean_rewards_noise_0.3378.json
+│           │   ├── mean_rewards_noise_0.3.json
+│           │   ├── mean_rewards_normal.json
+│           │   ├── student_policy_15.pt
+│           │   ├── test_metrics_on_expert_test_set.json
+│           │   ├── train_metrics_student_15.json
+│           │   └── val_metrics_student_15.json
+│           ├── batch_size_512_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_0.4
+│           │   ├── student_policy_19.pt
+│           │   ├── train_metrics_student_19.json
+│           │   └── val_metrics_student_19.json
+│           ├── batch_size_512_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_0.5
+│           │   ├── mean_rewards_big_noise.json
+│           │   ├── student_policy_16.pt
+│           │   ├── train_metrics_student_16.json
+│           │   └── val_metrics_student_16.json
+│           ├── batch_size_512_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_0.6
+│           │   ├── student_policy_18.pt
+│           │   ├── train_metrics_student_18.json
+│           │   └── val_metrics_student_18.json
+│           ├── batch_size_512_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_0.7
+│           │   ├── student_policy_19.pt
+│           │   ├── train_metrics_student_19.json
+│           │   └── val_metrics_student_19.json
+│           ├── batch_size_512_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_0.8
+│           │   ├── student_policy_19.pt
+│           │   ├── train_metrics_student_19.json
+│           │   └── val_metrics_student_19.json
+│           ├── batch_size_512_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_0.9
+│           │   ├── student_policy_17.pt
+│           │   ├── train_metrics_student_17.json
+│           │   └── val_metrics_student_17.json
+│           ├── batch_size_512_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_2
+│           │   ├── student_policy_18.pt
+│           │   ├── train_metrics_student_18.json
+│           │   └── val_metrics_student_18.json
+│           ├── batch_size_512_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_inverse_exponential_beta_k_0.5
+│           │   ├── student_policy_18.pt
+│           │   ├── train_metrics_student_18.json
+│           │   └── val_metrics_student_18.json
+│           ├── batch_size_64_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_0.5
+│           │   ├── student_policy_16.pt
+│           │   ├── train_metrics_student_16.json
+│           │   └── val_metrics_student_16.json
+│           ├── batch_size_64_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_inverse_exponential_beta_k_0.5
+│           │   ├── student_policy_14.pt
+│           │   ├── train_metrics_student_14.json
+│           │   └── val_metrics_student_14.json
+│           ├── batch_size_64_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_linear_exponential_beta_k_0.5
+│           │   ├── student_policy_19.pt
+│           │   ├── train_metrics_student_19.json
+│           │   └── val_metrics_student_19.json
+│           ├── batch_size_64_lr_1e-3_iterations_50_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_0.5
+│           │   ├── student_policy_48.pt
+│           │   ├── train_metrics_student_48.json
+│           │   └── val_metrics_student_48.json
+│           └── batch_size_64_lr_1e-3_iterations_50_rollouts_per_iteration_20_num_epochs_5_betaMode_inverse_exponential_beta_k_0.5
+│               ├── student_policy_46.pt
+│               ├── train_metrics_student_46.json
+│               └── val_metrics_student_46.json
+├── students_reacher
+│   └── simple
+│       └── reacher_expert_not_filtered
+│           ├── batch_size_32_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_exponential_exponential_beta_k_0.5
+│           │   ├── mean_rewards_reacher.json
+│           │   ├── others_param.json
+│           │   ├── student_policy_19.pt
+│           │   ├── train_metrics_student_19.json
+│           │   └── val_metrics_student_19.json
+│           ├── batch_size_32_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_inverse_exponential_beta_k_0.5
+│           │   ├── mean_rewards_reacher.json
+│           │   ├── others_param.json
+│           │   ├── student_policy_17.pt
+│           │   ├── test_metrics_on_expert_test_set.json
+│           │   ├── train_metrics_student_17.json
+│           │   └── val_metrics_student_17.json
+│           └── batch_size_32_lr_1e-3_iterations_20_rollouts_per_iteration_20_num_epochs_5_betaMode_linear_exponential_beta_k_0.5
+│               ├── mean_rewards_reacher.json
+│               ├── others_param.json
+│               ├── student_policy_19.pt
+│               ├── train_metrics_student_19.json
+│               └── val_metrics_student_19.json
+├── test
+│   └── test.py
+├── training
+│   ├── one_epoch.py
+│   └── train.py
+└── utils
+    ├── calculate_metrics.py
+    ├── convert_fc_to_sequential_keys.py
+    ├── is_running_in_colab.py
+    └── preprocess_dataset.py
+
 
 ```
 
@@ -135,7 +473,9 @@ The following are the tables with the metrics performance and the mean reward on
 
 **Massimo Romano**  
 GitHub: [@cybernetic-m](https://github.com/cybernetic-m)  
+
 LinkedIn: [Massimo Romano](https://www.linkedin.com/in/massimo-romano-01/)
+
 Website: [Massimo Romano](https://sites.google.com/studenti.uniroma1.it/romano/home-page?authuser=0)
 
 **Luca Del Signore**
