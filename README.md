@@ -39,19 +39,12 @@ In order to use the BCO method, that is a supervised learning method, we have us
 
 ---
 
-## <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab" height="20"/> Colab Instructions
+## Colab Instructions
 
 Follow these instructions if you want to run the notebooks on Colab:
 
-### 1. Clone the repository
+### 2. Run the "expert.ipynb" notebook (Behavioral Cloning Training) ## 🔧 [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" height="20"/>](https://colab.research.google.com/drive/1n4Dc-23pfjzySKUEZQk_CRjomwr1RskX?usp=sharing) 
 
-```sh
-git clone "https://github.com/cybernetic-m/DAgger4Robotics.git"
-cd DAgger4Robotics
-```
-To run the following notebooks, you can upload the notebook directly on [Colab](https://colab.research.google.com/).
-
-### 2. Run the "expert.ipynb" notebook (Behavioral Cloning Training)
 In this notebook you can train with BCO both an expert for Reacher and Franka Kitchen.
 
 ### 3. Run the "reacher.ipynb" notebook (DAgger for Reacher)
