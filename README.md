@@ -85,10 +85,9 @@ This is a comparison between the Deep MLP Teacher (the left) and the Shallow MLP
 
 The following are the performance of the metrics and the mean reward on 1k episodes:
 
-<p align="left">
-  <img src="images/reacher_1.png" width="45%" />
-  <img src="images/reacher_2.png" width="45%" />
-</p>
+<img src="./images/reacher_1.png" alt="Description"/>
+
+<img src="./images/reacher_2.png" alt="Description"/>
 
 ---
 
@@ -125,10 +124,10 @@ Finally, we have tested a "Cold Start" situation, in which for the first 27 step
 
 The following are the tables with the metrics performance and the mean reward on 1k episodes:
 
-<p align="left">
-  <img src="images/kitchen_1.png" width="45%" />
-  <img src="images/kitchen_2.png" width="45%" />
-</p>
+<img src="./images/kitchen_1.png" alt="Description"/>
+
+<img src="./images/kitchen_2.png" alt="Description"/>
+
 
 ---
 
