@@ -63,20 +63,6 @@ In this notebook you can train with DAgger a student for Franka Kitchen env.
 
 ---
 
-## 🔧 Local Instructions
-
-Follow these instructions if you want to run the notebooks locally:
-
-### 1. Clone the repository
-
-```sh
-git clone "https://github.com/cybernetic-m/DAgger4Robotics.git"
-cd DAgger4Robotics
-```
-
-
----
-
 ## 📊 Reacher Performance
 For Reacher we have tested three agents using the Expert dataset (the left), a filtered dataset (homemade) taking only mean reward over -0.1 (the center), and finally the Medium dataset (the right).
 
