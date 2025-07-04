@@ -43,14 +43,16 @@ In order to use the BCO method, that is a supervised learning method, we have us
 
 Follow these instructions if you want to run the notebooks on Colab:
 
-### 2. Run the "expert.ipynb" notebook (Behavioral Cloning Training) ## 🔧 [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" height="20"/>](https://colab.research.google.com/drive/1n4Dc-23pfjzySKUEZQk_CRjomwr1RskX?usp=sharing) 
+### 2. Run the "expert.ipynb" notebook (Behavioral Cloning Training) [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" height="20"/>](https://colab.research.google.com/drive/1n4Dc-23pfjzySKUEZQk_CRjomwr1RskX?usp=sharing) 
 
 In this notebook you can train with BCO both an expert for Reacher and Franka Kitchen.
 
-### 3. Run the "reacher.ipynb" notebook (DAgger for Reacher)
+### 3. Run the "reacher.ipynb" notebook (DAgger for Reacher) [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" height="20"/>](https://colab.research.google.com/drive/1Yl0TzJN8HzOH81T3BFboC7GW8KvRFyQu?usp=sharing) 
+
 In this notebook you can train with DAgger a student for Reacher env.
 
-### 4. Run the "kitchen.ipynb" notebook (DAgger for Franka Kitchen)
+### 4. Run the "kitchen.ipynb" notebook (DAgger for Franka Kitchen) [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" height="20"/>](https://colab.research.google.com/drive/1wPmGoIyDO1-6c8hCnPyaU1aH-4j3jGyA?usp=sharing) 
+
 In this notebook you can train with DAgger a student for Franka Kitchen env.
 
 ---
@@ -65,16 +67,7 @@ Follow these instructions if you want to run the notebooks locally:
 git clone "https://github.com/cybernetic-m/DAgger4Robotics.git"
 cd DAgger4Robotics
 ```
-To run the following notebooks, you can upload the notebook directly on [Colab](https://colab.research.google.com/).
 
-### 2. Run the "expert.ipynb" notebook (Behavioral Cloning Training)
-In this notebook you can train with BCO both an expert for Reacher and Franka Kitchen.
-
-### 3. Run the "reacher.ipynb" notebook (DAgger for Reacher)
-In this notebook you can train with DAgger a student for Reacher env.
-
-### 4. Run the "kitchen.ipynb" notebook (DAgger for Franka Kitchen)
-In this notebook you can train with DAgger a student for Franka Kitchen env.
 
 ---
 
