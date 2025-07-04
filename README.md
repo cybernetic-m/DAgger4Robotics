@@ -39,7 +39,7 @@ In order to use the BCO method, that is a supervised learning method, we have us
 
 ---
 
-## Colab Instructions
+## 🔧 Colab Instructions
 
 Follow these instructions if you want to run the notebooks on Colab:
 
