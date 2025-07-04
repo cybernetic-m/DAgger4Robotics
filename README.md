@@ -83,6 +83,13 @@ This is a comparison between the Deep MLP Teacher (the left) and the Shallow MLP
   <img src="images/reacher_5_new.gif" width="45%" />
 </p>
 
+The following are the performance of the metrics and the mean reward on 1k episodes:
+
+<p align="left">
+  <img src="images/reacher_1.png" width="45%" />
+  <img src="images/reacher_2.png" width="45%" />
+</p>
+
 ---
 
 ## 📊 Franka Kitchen Performance
@@ -95,12 +102,34 @@ For Franka Kitchen we have tested a Deep Teacher (BCO) using the Complete Minari
    <img src="images/kitchen_3.gif" width="33%" />
 </p>
 
-This is a comparison between the Deep MLP Teacher (the left) and the Shallow MLP student (the right).
+We have tested the Deep Teacher in presence of noise (setting the "robot_noise_ratio" variable of Franka Kitchen Environment). You can see the `robot_noise_ratio=0.29` (the left) and `robot_noise_ratio=0.30`.
 
 <p align="left">
-  <img src="images/kitchen_4.gif" width="45%" />
   <img src="images/kitchen_5.gif" width="45%" />
+  <img src="images/kitchen_6.gif" width="45%" />
 </p>
+
+We have tested also the Shallow Student obtained with DAgger training seeing that is more robust to the noise: in fact, you can see the `robot_noise_ratio=0.29` (the left) and `robot_noise_ratio=0.3378` (that it is able to recover the initial error).
+
+<p align="left">
+  <img src="images/kitchen_7.gif" width="45%" />
+  <img src="images/kitchen_8.gif" width="45%" />
+</p>
+
+Finally, we have tested a "Cold Start" situation, in which for the first 27 steps of the episode the joint/end_effector velocities are zeroed out. Both the Deep Teacher (the left) and the Shallow Student (the right) behave correctly to this situation.
+
+<p align="left">
+  <img src="images/kitchen_9.gif" width="45%" />
+  <img src="images/kitchen_10.gif" width="45%" />
+</p>
+
+The following are the tables with the metrics performance and the mean reward on 1k episodes:
+
+<p align="left">
+  <img src="images/kitchen_1.png" width="45%" />
+  <img src="images/kitchen_2.png" width="45%" />
+</p>
+
 ---
 
 ## 👤 Author
