@@ -35,7 +35,7 @@ In particular we have used firstly the Reacher environment in order to test DAgg
 
 ⚠️**IMPORTANT**⚠️
 
-We suggest you to read our presentation in order to understand the environments, action/observation spaces ... CLICK HERE => [<img src="https://ssl.gstatic.com/docs/doclist/images/mediatype/icon_1_presentation_x128.png" alt="Google Slides" width= "20" height="20"/>](https://docs.google.com/presentation/d/19dWY2DLY46KWidCebooN5IeE5IqPNLkHfGRkV1Xng3M/edit?usp=sharing) 
+We suggest you to read our presentation in order to understand the environments, action/observation spaces ... CLICK HERE [<img src="https://ssl.gstatic.com/docs/doclist/images/mediatype/icon_1_presentation_x128.png" alt="Google Slides" width= "30" height="30"/>](https://docs.google.com/presentation/d/19dWY2DLY46KWidCebooN5IeE5IqPNLkHfGRkV1Xng3M/edit?usp=sharing) 
 
 ## 📚 Datasets
 In order to use the BCO method, that is a supervised learning method, we have used [Minari](https://minari.farama.org/) datasets for both environments:
