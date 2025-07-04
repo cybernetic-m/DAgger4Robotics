@@ -71,16 +71,16 @@ In this notebook you can train with DAgger a student for Franka Kitchen env.
 For Reacher we have tested three agents using the Expert dataset (the left), a filtered dataset (homemade) taking only mean reward over -0.1 (the center), and finally the Medium dataset (the right).
 
 <p align="left">
-  <img src="images/reacher_1.gif" width="33%" />
-  <img src="images/reacher_2.gif" width="33%" />
-   <img src="images/reacher_3.gif" width="33%" />
+  <img src="images/reacher_1_new.gif" width="33%" />
+  <img src="images/reacher_2_new.gif" width="33%" />
+   <img src="images/reacher_3_new.gif" width="33%" />
 </p>
 
 This is a comparison between the Deep MLP Teacher (the left) and the Shallow MLP student (the right).
 
 <p align="left">
-  <img src="images/reacher_4.gif" width="45%" />
-  <img src="images/reacher_5.gif" width="45%" />
+  <img src="images/reacher_4_new.gif" width="45%" />
+  <img src="images/reacher_5_new.gif" width="45%" />
 </p>
 
 ---
@@ -98,17 +98,20 @@ For Franka Kitchen we have tested a Deep Teacher (BCO) using the Complete Minari
 This is a comparison between the Deep MLP Teacher (the left) and the Shallow MLP student (the right).
 
 <p align="left">
-  <img src="images/reacher_4.gif" width="45%" />
-  <img src="images/reacher_5.gif" width="45%" />
+  <img src="images/kitchen_4.gif" width="45%" />
+  <img src="images/kitchen_5.gif" width="45%" />
 </p>
 ---
 
 ## 👤 Author
 
 **Massimo Romano**  
-GitHub: [@yourhandle](https://github.com/yourhandle)  
-LinkedIn: [yourprofile](https://linkedin.com/in/yourprofile)
-Website: [yourprofile](https://linkedin.com/in/yourprofile)
+GitHub: [@cybernetic-m](https://github.com/cybernetic-m)  
+LinkedIn: [Massimo Romano](https://www.linkedin.com/in/massimo-romano-01/)
+Website: [Massimo Romano](https://sites.google.com/studenti.uniroma1.it/romano/home-page?authuser=0)
+
+**Luca Del Signore**
+GitHub: [@Puaison](https://github.com/Puaison)  
 
 ---
 
