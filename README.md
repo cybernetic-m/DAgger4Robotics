@@ -4,7 +4,7 @@
 
 ## 📖 Description
 <p align="left">
-  <img src="images/reacher_1.gif" width="45%" />
+  <img src="images/reacher_1_new.gif" width="45%" />
   <img src="images/kitchen_1.gif" width="45%" />
 </p>
 In this project we have implemented Behavioral Cloning (BCO) and DAgger (Dataset Aggregation) in two reinforcement learning environments:
@@ -17,6 +17,18 @@ In this project we have implemented Behavioral Cloning (BCO) and DAgger (Dataset
    
 <img src="./images/FrankaKitchen.png" alt="Description" width="200" height = "200" />
 
+**BCO**
+
+For BCO we have used an MLP deep network.
+
+<img src="./images/slide_7.png" alt="Description" />
+
+**DAgger**
+
+To train the student we have used DAgger algorithm with a Shallow MLP network (for Policy Distillation).
+
+<img src="./images/slide_8.png" alt="Description" />
+
 In particular we have used firstly the Reacher environment in order to test DAgger in a more "simple" env, while after that we have tested its performance in a more complicated one, Franka Kitchen. 
 
 ## 📚 Datasets
@@ -25,7 +37,6 @@ In order to use the BCO method, that is a supervised learning method, we have us
 1. [Reacher Expert](https://minari.farama.org/datasets/mujoco/reacher/expert-v0/) and [Reacher Medium](https://minari.farama.org/datasets/mujoco/reacher/medium-v0/) datasets
 2. [Franka Kitchen Complete](https://minari.farama.org/datasets/D4RL/kitchen/complete-v2/) (we have cutted the complete trajectories in order to do only the "microwave" task!)
 
-
 ---
 
 ## 🔧 Instructions
@@ -33,56 +44,63 @@ In order to use the BCO method, that is a supervised learning method, we have us
 ### 1. Clone the repository
 
 ```sh
-git clone https://github.com/yourusername/yourproject.git
-cd yourproject
+git clone "https://github.com/cybernetic-m/DAgger4Robotics.git"
+cd DAgger4Robotics
 ```
+To run the following notebooks, you can upload the notebook directly on [Colab](https://colab.research.google.com/).
 
-### 2. Run the 
+### 2. Run the "expert.ipynb" notebook (Behavioral Cloning Training)
+In this notebook you can train with BCO both an expert for Reacher and Franka Kitchen.
 
-#### On Ubuntu/Linux:
+### 3. Run the "reacher.ipynb" notebook (DAgger for Reacher)
+In this notebook you can train with DAgger a student for Reacher env.
 
-```sh
-sudo apt-get install python3-venv  # If not already installed
-python3 -m venv venv
-source venv/bin/activate
-```
+### 4. Run the "kitchen.ipynb" notebook (DAgger for Franka Kitchen)
+In this notebook you can train with DAgger a student for Franka Kitchen env.
+
+
 ## 🗂 Folder Structure
 
 ```
-yourproject/
-├── public/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── ...
-├── .env.example
-└── README.md
+
 ```
 
 ---
 
-## 🎬 Demo
+## 📊 Reacher Performance
+For Reacher we have tested three agents using the Expert dataset (the left), a filtered dataset (homemade) taking only mean reward over -0.1 (the center), and finally the Medium dataset (the right).
 
-[🌐 Live Demo](https://your-demo-link.com)  
-[📘 Documentation](https://your-docs-link.com)
+<p align="left">
+  <img src="images/reacher_1.gif" width="33%" />
+  <img src="images/reacher_2.gif" width="33%" />
+   <img src="images/reacher_3.gif" width="33%" />
+</p>
 
-![Demo GIF](path/to/demo.gif) <!-- Replace with actual demo GIF -->
+This is a comparison between the Deep MLP Teacher (the left) and the Shallow MLP student (the right).
 
----
-
-## 📸 Screenshots
-
-| UI View | Description |
-|--------|-------------|
-| ![Home](path/to/screenshot1.png) | Home screen |
-| ![Feature](path/to/screenshot2.png) | Feature showcase |
-
----
-
+<p align="left">
+  <img src="images/reacher_4.gif" width="45%" />
+  <img src="images/reacher_5.gif" width="45%" />
+</p>
 
 ---
 
+## 📊 Franka Kitchen Performance
 
+For Franka Kitchen we have tested a Deep Teacher (BCO) using the Complete Minari dataset (the left), a Shallow Teacher (BCO) using also the Complete Minari dataset (center), and a Shallow Student (DAgger) (the right).
+
+<p align="left">
+  <img src="images/kitchen_1.gif" width="33%" />
+  <img src="images/kitchen_2.gif" width="33%" />
+   <img src="images/kitchen_3.gif" width="33%" />
+</p>
+
+This is a comparison between the Deep MLP Teacher (the left) and the Shallow MLP student (the right).
+
+<p align="left">
+  <img src="images/reacher_4.gif" width="45%" />
+  <img src="images/reacher_5.gif" width="45%" />
+</p>
 ---
 
 ## 👤 Author
