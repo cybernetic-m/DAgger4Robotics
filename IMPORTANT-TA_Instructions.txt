@@ -1,0 +1,16 @@
+To run our code, you can upload on Google Colab the three notebooks:
+
+1) "expert.ipynb" => You can retrain with Behavioral Cloning the expert policy
+2) "reacher.ipynb" => You can retrain with DAgger the student policy on Reacher Environment
+2) "kitchen.ipynb" => You can retrain with DAgger the student policy on Franka Kitchen Environment
+
+We suggest you to read the README.md file on our Github Repository: https://github.com/cybernetic-m/DAgger4Robotics
+
+There you can find directly three Google Colab buttons under the "Colab Instructions" section, and our Google Presentation under the "Presentation" section for more detail!
+
+For any other question, write us an email:
+
+romano.2043836@studenti.uniroma1.it
+delsignore.2096442@studenti.uniroma1.it
+
+Thank you!
